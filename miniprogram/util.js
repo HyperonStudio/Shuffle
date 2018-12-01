@@ -93,7 +93,7 @@ function login(cb) {
                     iv: userData.iv,
                     signature: userData.signature,
                     rawData: userData.rawData,
-                    appid: 'wx3c05245b21e208b3'
+                  appid: 'wx2e7dd58b0fcdf06d'
                 };
                 var opt = {
                     url: 'https://c.y.qq.com/base/fcgi-bin/mina_wx_login.fcg',

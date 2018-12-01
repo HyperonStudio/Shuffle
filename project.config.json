@@ -6,7 +6,8 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"appid": "wx2e7dd58b0fcdf06d",
 	"projectname": "Shuffle",

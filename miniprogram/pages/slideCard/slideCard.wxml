@@ -5,8 +5,8 @@
    <view  wx:for="{{ cardInfoList }}" id="{{ item.id }}"  wx:key="unique" wx:for-index="id" wx:for-item="item"   >
 
         <block wx:if="{{id%2===0}}">
-                <view class="card_item card1 "hidden="{{hidden1}}"     catchtouchmove="touchmove"  catchtouchend = "touchend"  style=" z-index: {{index1}};position:absolute;top:{{ballTop}}px; left: {{ballLeft}}rpx;" animation="{{animationData}}">
-                    <image src="{{ item.cardUrl }} " catchtap="like" ></image>
+                <view class="card_item card1 "hidden="{{hidden1}}" catchtouchstart="touchStart"    catchtouchmove="touchmove"  catchtouchend = "touchend"  style=" z-index: {{index1}};position:absolute;top:{{currentCardT}}px; left: {{currentCardL}}px; width:{{currentCardW}}px; height:{{currentCardH}}px; background-color:#000000" animation="{{animationData}}">
+                    <!-- <image src="{{ item.cardUrl }} " catchtap="like" ></image>
                     <view class="card_info">
                         <view class="info_top">
                             <view class="info_title">test1</view>
@@ -15,7 +15,7 @@
                         <view class="info_content"> 学生 * 95年 * 天秤座 * 165cm * 成都
                         </view> 
                         <view class="info_bottom">🌹🌹🌹🌹🌹</view>
-                    </view>
+                    </view> -->
                 </view>
             </block>
 
