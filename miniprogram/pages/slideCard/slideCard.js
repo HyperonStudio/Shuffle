@@ -4,8 +4,11 @@ var app = getApp();
 
 var allCount = 0;
 
-
-
+let SwipeOutAnimationDuration = 300;
+let BackToCenterAnimationDuration = 300;
+let MinSwipeDistance = 150;
+let CardTopDistance = 10;
+let CardScaleRate = 0.95;
 
 //ALL:假数据,若加载到服务器数据,可将ALL掷为[],在onLoad函数中请求服务器数据赋给ALL;(ps:记得在所有数据后面附上两条假数据,如下ALL中倒数这两条数据,因为这两条数据用于处理层叠效果,若改变其id,在对应的函数处理判断位置应该修改其判断值)
 //bug:ALL数据应为奇数条,不然会导致最后层叠效果无法消失
@@ -16,37 +19,52 @@ Page({
         currentCardT: 0,
         currentCardW: 0,
         currentCardH: 0,
+        currentCardAnimation: {},
 
-        animationData: {},
+        middleCardL: 0,
+        middleCardL: 0,
+        middleCardW: 0,
+        middleCardH: 0,
+        middleCardScaleW: 1,
+        middleCardScaleH: 1,
+        middleCardAnimation: {},
+
+        lastCardL: 0,
+        lastCardL: 0,
+        lastCardW: 0,
+        lastCardH: 0,
+        lastCardAnimation: {},
+
+        
         want_hidden: false,
         nowant_hidden: true,
         startPosition: {x:-1,y:-1},
         All: [{
-                cardUrl: '../../images/test1.jpg',
+                cardUrl: '../../images/loocup_cover_0.jpeg',
                 id: 1
 
             }, {
-                cardUrl: '../../images/test2.jpg',
-                id: 2
+                cardUrl: '../../images/loocup_cover_1.png',
+                id: 1
 
 
             }, {
-                cardUrl: '../../images/test3.jpg',
-                id: 3
+                cardUrl: '../../images/loocup_cover_2.jpeg',
+                id: 2
             },
 
             {
-                cardUrl: '../../images/test3.jpg',
+                cardUrl: '../../images/loocup_cover_3.jpeg',
                 id: 4
             },
 
             {
-                cardUrl: '../../images/test4.jpg',
+                cardUrl: '../../images/loocup_cover_4.jpeg',
                 id: 5
             },
 
             {
-                cardUrl: '../../images/test5.jpg',
+                cardUrl: '../../images/loocup_cover_5.jpeg',
                 id: 6
             },
 
@@ -60,254 +78,94 @@ Page({
         })
     },
 
-    // 滑动第一张的移动事件
-    //pageX,pageY,当前移动点位置
-    //moveX,moveY用于锁定图片中点位置
-    //ballLeft由于是rpx所以*2
-
-    touchmove: function(event) {
+    touchMove: function(event) {
         console.log(event)
         let pageX = event.touches[0].pageX
         let pageY = event.touches[0].pageY
         this.setData({
-            currentCardL: this.data.screenWidth * 0.08 + pageX - this.data.startPosition.x,
-            currentCardT: this.data.screenHeight * 0.05 + pageY - this.data.startPosition.y,
+            currentCardL: this.currentCardStartL() + pageX - this.data.startPosition.x,
+            currentCardT: this.currentCardStartT() + pageY - this.data.startPosition.y,
         });
     },
 
 
     // 第一张移动结束处理动画
-    touchend: function(event) {
-        if (event.currentTarget.offsetLeft < -110) {
-            this.Animation(-500);
-        } else if (event.currentTarget.offsetLeft > 180) {
-            this.Animation(500);
+    touchEnd: function(event) {
+        let x = event.currentTarget.offsetLeft - this.currentCardStartL()
+        let y = event.currentTarget.offsetTop - this.currentCardStartT()
+        if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
+            this.animateSwipeOutCurrentCard(x * 3, y * 3)
         } else {
-            this.AnimationN1(event.currentTarget.offsetLeft, event.currentTarget
-                .offsetTop);
+            this.animateCurrentCardBackToCenter(event.currentTarget.offsetLeft, event.currentTarget.offsetTop)
         }
-
     },
 
-
-
-    //第二张移动事件  
-    //pageX,pageY,当前移动点位置
-    touchmove2: function(event) {
-        let pageX = event.touches[0].pageX;
-        let pageY = event.touches[0].pageY;
-        console.log(pageX, pageY);
-        // 需要移动的距离;
-        let moveX = this.data.screenWidth * 0.8 * 0.5;
-        let moveY = 350 * 0.5;
-        this.setData({
-            ballTop2: event.touches[0].pageY - moveY,
-            ballLeft2: (event.touches[0].pageX - moveX) * 2,
+    animateSwipeOutCurrentCard: function(offsetX, offsetY) {
+        var currentCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",            
         });
+        currentCardAnimation.translateX(offsetX).translateY(offsetY).step();
 
-    },
-
-
-    // 第二张移动结束处理动画
-    touchend2: function(event) {
-
-        if (event.currentTarget
-            .offsetLeft < -110) {
-
-            this.Animation2(-500);
-
-        } else if (event.currentTarget
-            .offsetLeft > 180) {
-            this.Animation2(500);
-        } else {
-            this.AnimationN2(event.currentTarget
-                .offsetLeft, event.currentTarget
-                .offsetTop);
-        }
-
-    },
-
-    // 第一张左滑动右滑动动画
-    Animation: function(translateXX) {
-
-        // 动画
-        var animation = wx.createAnimation({
-            duration: 720,
-            // timingFunction: 'cubic-bezier(.8,.2,.1,0.8)',
+        var middleCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
+        })
+        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).step()
 
-        });
-        this.animation = animation;
-        this.animation.translateY(0).translateX(translateXX).step();
-        this.animation.translateY(0).translateX(0).opacity(1).rotate(0).step({
-            duration: 10
-        });
-
-
+        var lastCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        })
+        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).step()
 
         this.setData({
-            animationData: this.animation.export(),
-
-
-
+            currentCardAnimation: currentCardAnimation.export(),
+            middleCardAnimation: middleCardAnimation.export(),
+            lastCardAnimation: lastCardAnimation.export(),
         });
-        var self = this;
-        setTimeout(function() {
-            self.setData({
-                ballTop: 62,
-                ballLeft: 76,
-                index1: 4,
-                percent2: 100,
-                index2: 6,
-            })
-        }, 720);
-        setTimeout(function() {
-            var cardInfoList = self.data.cardInfoList;
-            if (self.data.All.length > 0) {
-                var tempfromAll = self.data.All.shift();
-                self.data.cardInfoList[0] = tempfromAll;
-            }
 
-
-            //当加载最后一条数据时划出后隐藏自己
-            if (self.data.cardInfoList[0].id == allCount) {
-
-                //   self.setData({
-                //       hidden1:true,
-
-                // })
+        // 动画之后，改变数据源
+        var that = this;
+        setTimeout(function () {
+            var cardInfoList = that.data.cardInfoList;
+            cardInfoList.shift();            
+            if (that.data.All.length > 0) {
+                var lastCardInfo = that.data.All.shift();
+                cardInfoList.push(lastCardInfo)                
+            } else {
                 wx.showToast({
                     title: '已无更多',
                     icon: 'success',
                     duration: 2000
                 })
-
             }
-
-            self.setData({
-                cardInfoList: self.data.cardInfoList,
-                animationData: {},
-            });
-        }, 350);
-
-    },
-    // 第二张左滑动右滑动动画
-    Animation2: function(translateXX) {
-        // 动画
-        var animation = wx.createAnimation({
-            duration: 720,
-            // timingFunction: 'cubic-bezier(.8,.2,.1,0.8)',
-            timingFunction: "ease",
-
-        });
-        this.animation = animation;
-        this.animation.translateY(0).translateX(translateXX).opacity(0, 1).step();
-        this.animation.translateY(0).translateX(0).opacity(1).rotate(0).step({
-            duration: 10
-        });
-
-
-
-        this.setData({
-            animationData1: this.animation.export(),
-        });
-
-
-        var self = this;
-        setTimeout(function() {
-            self.setData({
-                percent1: 100,
-                index1: 6,
-
-                ballTop2: 62,
-                ballLeft2: 76,
-                index2: 4,
-
+            that.setData({
+                cardInfoList: cardInfoList,
             })
-        }, 720)
-
-
-        setTimeout(function() {
-            var cardInfoList = self.data.cardInfoList;
-
-            if (self.data.All.length > 0) {
-
-                var tempfromAll = self.data.All.shift();
-                self.data.cardInfoList[1] = tempfromAll;
-
-
-            }
-
-
-            self.setData({
-                cardInfoList: self.data.cardInfoList,
-                animationData: {},
-
-            });
-        }, 350);
-
+            that.resetCardPositions()
+        }, SwipeOutAnimationDuration);
     },
 
-
-    // 第一张图片不需翻页动画
-    AnimationN1: function(offsetX, offsetY) {
-        // 动画
+    animateCurrentCardBackToCenter: function(offsetX, offsetY) {
         var animation = wx.createAnimation({
-            duration: 500,
-            timingFunction: 'ease-out',
-            // timingFunction: "ease",
-
+            duration: BackToCenterAnimationDuration,
+            timingFunction: 'ease',
         });
-        var self = this;
-        this.animation = animation;
-        this.animation.translateX(offsetX).translateY(offsetY).rotate(0).step({
-            duration: 10
-        });
-        this.animation.translateY(0).translateX(0).rotate(0).scale(1).step();
+        animation.left(this.currentCardStartL()).top(this.currentCardStartT()).translateX(0).translateY(0).step();
 
         this.setData({
-            animationData: this.animation.export(),
-            ballTop: 62,
-            ballLeft: 76,
+            // currentCardAnimation: animation.export(),
+            currentCardL: this.currentCardStartL(),
+            currentCardT: this.currentCardStartT(),
         });
+        var that = this
+        setTimeout(function () {
+            that.setData({
+                currentCardAnimation: {},
+            })
+        }, BackToCenterAnimationDuration);
     },
-
-
-    // 第二张图片不需翻页动画
-    AnimationN2: function(offsetX, offsetY) {
-        // 动画
-        var animation = wx.createAnimation({
-            duration: 500,
-            timingFunction: 'ease-out',
-            // timingFunction: "ease",
-
-        });
-        var self = this;
-        this.animation = animation;
-        this.animation.translateX(offsetX).translateY(offsetY).rotate(0).step({
-            duration: 10
-        });
-        this.animation.translateY(0).translateX(0).scale(1).rotate(0).step();
-
-        this.setData({
-            animationData1: this.animation.export(),
-            ballTop2: 62,
-            ballLeft2: 76,
-        });
-    },
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // 加载数据
     //temp从ALL取出的数据
@@ -347,13 +205,10 @@ Page({
         // 创建一个临时数组 ,用于加载值(2个)
         allCount = that.data.All.length;
         var temp = new Array();
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
             var add = that.data.All.shift();
             temp.push(add);
         }
-
-        console.log(that.data.All.length);
-        console.log(temp);
         that.setData({
             cardInfoList: temp,
 
@@ -378,11 +233,91 @@ Page({
             }
         })
 
-        this.setData({
-            currentCardL: this.data.screenWidth * 0.08,
-            currentCardT: this.data.screenHeight * 0.05,
-            currentCardW: this.data.screenWidth * 0.84,
-            currentCardH: this.data.screenHeight * 0.84,
+        this.resetCardPositions()
+    },
+
+    resetCardPositions : function() {
+        var currentCardAnimation = wx.createAnimation({
+            duration: 0,
+        });
+        currentCardAnimation.translateX(0).translateY(0).step();
+
+        var middleCardAnimation = wx.createAnimation({
+            duration: 0,
         })
-    }
+        middleCardAnimation.scaleX(CardScaleRate).scaleY(CardScaleRate).step()
+
+        var lastCardAnimation = wx.createAnimation({
+            duration: 0,
+        })
+        lastCardAnimation.scaleX(CardScaleRate * CardScaleRate).scaleY(CardScaleRate * CardScaleRate).step()
+
+        this.setData({
+            currentCardL: this.currentCardStartL(),
+            currentCardT: this.currentCardStartT(),
+            currentCardW: this.currentCardStartW(),
+            currentCardH: this.currentCardStartH(),
+            currentCardAnimation: currentCardAnimation.export(),
+            middleCardL: this.middleCardStartL(),
+            middleCardT: this.middleCardStartT(),
+            middleCardW: this.middleCardStartW(),
+            middleCardH: this.middleCardStartH(),
+            middleCardAnimation: middleCardAnimation.export(),
+            lastCardL: this.lastCardStartL(),
+            lastCardT: this.lastCardStartT(),
+            lastCardW: this.lastCardStartW(),
+            lastCardH: this.lastCardStartH(),
+            lastCardAnimation: lastCardAnimation.export(),
+        })
+    },
+
+    currentCardStartL : function() {
+        return this.data.screenWidth * 0.08;
+    },
+
+    currentCardStartT: function () {
+        return this.data.screenHeight * 0.05;
+    },
+
+    currentCardStartW: function () {
+        return this.data.screenWidth * 0.84;
+    },
+
+    currentCardStartH: function () {
+        return this.data.screenHeight * 0.84;
+    },
+
+    middleCardStartL: function () {
+        return this.currentCardStartL();
+    },
+
+    middleCardStartT: function () {
+        let heightDiff = this.currentCardStartH() * (1 - CardScaleRate) / 2;
+        return this.currentCardStartT() - heightDiff - CardTopDistance;
+    },
+
+    middleCardStartW: function () {
+        return this.currentCardStartW();
+    },
+
+    middleCardStartH: function () {
+        return this.currentCardStartH();
+    },
+
+    lastCardStartL: function () {
+        return this.currentCardStartL();
+    },
+
+    lastCardStartT: function () {
+        let heightDiff = this.currentCardStartH() * (1 - CardScaleRate * CardScaleRate) / 2;
+        return this.currentCardStartT() - heightDiff - CardTopDistance * 2;
+    },
+
+    lastCardStartW: function () {
+        return this.currentCardStartW();
+    },
+
+    lastCardStartH: function () {
+        return this.currentCardStartH();
+    },
 })
