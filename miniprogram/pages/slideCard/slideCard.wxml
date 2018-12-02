@@ -7,82 +7,54 @@
             <block wx:if="{{index==0}}">
                 <view class="card_item card1" hidden="{{hidden1}}" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style=" z-index:3;position:absolute;top:{{currentCardT}}px; left: {{currentCardL}}px; width:{{currentCardW}}px; height:{{currentCardH}}px;"
                     animation="{{currentCardAnimation}}">
-                    <view class="card_info">
-                        <image src="{{item.cardUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
-                        <view class="info_top">
-                            <view class="info_title">Current Card</view>
-                            <view class="info_light">🌞</view>
+                    <view class="card_info" style='background-color:#909090'>
+                        <image src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
+                        <view class='card_text_info'>
+                            <view class="info_top">
+                                <view class="card_songName">{{item.songName}}</view>
+                                <view class="card_singerName">{{item.singerName}}</view>
+                            </view>
+                            <view class="card_desc">{{item.desc}}</view>
+                            <image class="card_posterAvatar" src="{{item.posterAvatarUrl}}"></image>
+                            <view class='card_posterName'>{{item.posterName}}</view>
                         </view>
-                        <view class="info_content"> 学生 * 95年 * 天秤座 * 165cm * 成都
-                        </view>
-                        <view class="info_bottom">🌹🌹🌹🌹🌹</view>
                     </view>
                 </view>
             </block>
 
             <block wx:if="{{index==1}}">
-                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:2;position:absolute;top:{{middleCardT}}px; left: {{middleCardL}}px; width:{{middleCardW}}px; height:{{middleCardH}}px;"
-                    animation="{{middleCardAnimation}}">
-                    <view class="card_info">
-                        <image src="{{item.cardUrl}}" style='width:{{middleCardW}}px; height:{{middleCardW}}px;'></image>
-                        <view class="info_top">
-                            <view class="info_title">Middle Card</view>
-                            <view class="info_light">🌞</view>
+                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:2;position:absolute;top:{{middleCardT}}px; left: {{middleCardL}}px; width:{{middleCardW}}px; height:{{middleCardH}}px;" animation="{{middleCardAnimation}}">
+                    <view class="card_info" style='background-color:#909090'>
+                        <image src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
+                        <view class='card_text_info'>
+                            <view class="info_top">
+                                <view class="card_songName">{{item.songName}}</view>
+                                <view class="card_singerName">{{item.singerName}}</view>
+                            </view>
+                            <view class="card_desc">{{item.desc}}</view>
+                            <image class="card_posterAvatar" src="{{item.posterAvatarUrl}}"></image>
+                            <view class='card_posterName'>{{item.posterName}}</view>
                         </view>
-                        <view class="info_content"> 学生 * 95年 * 天秤座 * 165cm * 成都
-                        </view>
-                        <view class="info_bottom">🌹🌹🌹🌹🌹</view>
                     </view>
                 </view>
             </block>
 
             <block wx:if="{{index==2}}">
-                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:1;position:absolute;top:{{lastCardT}}px; left: {{lastCardL}}px; width:{{lastCardW}}px; height:{{lastCardH}}px;"
-                    animation="{{lastCardAnimation}}">
-                    <view class="card_info">
-                        <image src="{{item.cardUrl}}" style='width:{{lastCardW}}px; height:{{lastCardW}}px;'></image>
-                        <view class="info_top">
-                            <view class="info_title">Last Card</view>
-                            <view class="info_light">🌞</view>
+                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:1;position:absolute;top:{{lastCardT}}px; left: {{lastCardL}}px; width:{{lastCardW}}px; height:{{lastCardH}}px;" animation="{{lastCardAnimation}}">
+                    <view class="card_info" style='background-color:#909090'>
+                        <image src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
+                        <view class='card_text_info'>
+                            <view class="info_top">
+                                <view class="card_songName">{{item.songName}}</view>
+                                <view class="card_singerName">{{item.singerName}}</view>
+                            </view>
+                            <view class="card_desc">{{item.desc}}</view>
+                            <image class="card_posterAvatar" src="{{item.posterAvatarUrl}}"></image>
+                            <view class='card_posterName'>{{item.posterName}}</view>
                         </view>
-                        <view class="info_content"> 学生 * 95年 * 天秤座 * 165cm * 成都
-                        </view>
-                        <view class="info_bottom">🌹🌹🌹🌹🌹</view>
                     </view>
                 </view>
             </block>
-
         </view>
-
-
-
-        <!--遮罩 防止用户在滑动第一张的时候滑第二张,造成奇怪的错误-->
-        <!-- <view class="card_item" style=" z-index: 5;position:absolute;top:62px; left: 76rpx;color:#FFFFF0;"hidden="{{hidden4}}" >
-            <image class="opacity_image" ></image>
-            <view  class="card_info_opacity" ></view>
-            </view> -->
-        <!--遮罩 防止用户在滑动第一张的时候滑第二张,造成奇怪的错误-->
-
-
-
-
-
-
-        <!--折叠效果-->
-        <!-- <view class="card_item card2" hidden="{{hidden3}}" >
-            <image class="opacity_image" ></image>
-                  <view class="card_info_other"></view>
-
-              </view> 
-
-             <view class="card_item card3" hidden="{{hidden4}}" >
-                <image class="opacity_image" ></image>
-                            <view class="card_info_other"></view>
-              </view>  -->
-        <!--折叠效果-->
     </view>
-
-
-
-
 </view>

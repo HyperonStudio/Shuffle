@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+
 var app = getApp();
 
 var allCount = 0;
@@ -34,40 +35,65 @@ Page({
         lastCardW: 0,
         lastCardH: 0,
         lastCardAnimation: {},
-
+        lastCardOpacity: 1,
         
         want_hidden: false,
         nowant_hidden: true,
         startPosition: {x:-1,y:-1},
         All: [{
-                cardUrl: '../../images/loocup_cover_0.jpeg',
-                id: 1
-
-            }, {
-                cardUrl: '../../images/loocup_cover_1.png',
-                id: 1
-
-
-            }, {
-                cardUrl: '../../images/loocup_cover_2.jpeg',
-                id: 2
-            },
-
+                imageUrl: '../../images/loocup_cover_0.jpeg',
+                songName: '氧气',
+                singerName: '郝蕾',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
+            }, 
             {
-                cardUrl: '../../images/loocup_cover_3.jpeg',
-                id: 4
-            },
-
+                imageUrl: '../../images/loocup_cover_1.png',
+                songName: '缺氧',
+                singerName: '郝雷',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
+            }, 
             {
-                cardUrl: '../../images/loocup_cover_4.jpeg',
-                id: 5
+                imageUrl: '../../images/loocup_cover_2.jpeg',
+                songName: '臭氧',
+                singerName: '郝雨',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
             },
-
             {
-                cardUrl: '../../images/loocup_cover_5.jpeg',
-                id: 6
+                imageUrl: '../../images/loocup_cover_3.jpeg',
+                songName: '供氧',
+                singerName: '郝雪',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
             },
-
+            {
+                imageUrl: '../../images/loocup_cover_4.jpeg',
+                songName: '厌氧菌',
+                singerName: '郝雾',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
+            },
+            {
+                imageUrl: '../../images/loocup_cover_5.jpeg',
+                songName: '氧气罩',
+                singerName: '郝霾',
+                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                posterName: '东莞吴彦祖',
+                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
+                liked: 0,
+            },
         ]
     },
 
@@ -79,7 +105,6 @@ Page({
     },
 
     touchMove: function(event) {
-        console.log(event)
         let pageX = event.touches[0].pageX
         let pageY = event.touches[0].pageY
         this.setData({
@@ -140,10 +165,19 @@ Page({
                     duration: 2000
                 })
             }
-            that.setData({
-                cardInfoList: cardInfoList,
-            })
-            that.resetCardPositions()
+            that.resetCardPositions(cardInfoList)
+            
+            // 最后一张卡片出来的时候，往往会因为加载图片而闪一下，我们要做个渐显动画
+            // var lastCardShowAnimation = wx.createAnimation({
+            //     duration: 1000,
+            //     timingFunction: "ease",
+            // })
+            // lastCardShowAnimation.opacity(1)
+            // that.setData({
+            //     lastCardAnimation: lastCardShowAnimation.export(),
+            //     lastCardOpacity: 1,
+            // });
+
         }, SwipeOutAnimationDuration);
     },
 
@@ -233,10 +267,10 @@ Page({
             }
         })
 
-        this.resetCardPositions()
+        this.resetCardPositions(this.data.cardInfoList)
     },
 
-    resetCardPositions : function() {
+    resetCardPositions: function (cardInfoList) {
         var currentCardAnimation = wx.createAnimation({
             duration: 0,
         });
@@ -253,6 +287,7 @@ Page({
         lastCardAnimation.scaleX(CardScaleRate * CardScaleRate).scaleY(CardScaleRate * CardScaleRate).step()
 
         this.setData({
+            cardInfoList: cardInfoList,
             currentCardL: this.currentCardStartL(),
             currentCardT: this.currentCardStartT(),
             currentCardW: this.currentCardStartW(),
