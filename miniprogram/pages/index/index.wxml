@@ -31,5 +31,11 @@
     </navigator>
   </view>
 
+  <view class="uploader">
+    <navigator url="../postCard/postCard" open-type="navigate" class="uploader-text">
+      <text>简单的发布页</text>
+    </navigator>
+  </view>
+
 
 </view>

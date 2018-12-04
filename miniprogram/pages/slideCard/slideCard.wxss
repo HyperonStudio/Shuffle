@@ -63,6 +63,10 @@ page {
     justify-content: left;
 }
 
+.card_image {
+    will-change: transform;
+}
+
 .card_songName {
     font-size: 18px;
     padding-left: 12px;

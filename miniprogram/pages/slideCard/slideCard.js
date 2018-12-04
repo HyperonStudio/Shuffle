@@ -1,6 +1,8 @@
 //index.js
 //获取应用实例
 
+const util = require('../../util.js');
+
 var app = getApp();
 
 var allCount = 0;
@@ -36,12 +38,19 @@ Page({
         lastCardH: 0,
         lastCardAnimation: {},
         lastCardOpacity: 1,
+
+        playState: 'stop',
+        curPlayMid: '',
         
         want_hidden: false,
         nowant_hidden: true,
         startPosition: {x:-1,y:-1},
         All: [{
+                id: 0,
+                unique: '0',
                 imageUrl: '../../images/loocup_cover_0.jpeg',
+                songID: '000UCO6V0m01Ld',
+                songType: 1,
                 songName: '氧气',
                 singerName: '郝蕾',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -50,7 +59,11 @@ Page({
                 liked: 0,
             }, 
             {
+                id: 1,
+                unique: '1',
                 imageUrl: '../../images/loocup_cover_1.png',
+                songID: '00314mUH1UwEeD',
+                songType: 1,
                 songName: '缺氧',
                 singerName: '郝雷',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -59,7 +72,11 @@ Page({
                 liked: 0,
             }, 
             {
+                id: 2,
+                unique: '2',
                 imageUrl: '../../images/loocup_cover_2.jpeg',
+                songID: '004WTadw1lOact',
+                songType: 1,
                 songName: '臭氧',
                 singerName: '郝雨',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -68,7 +85,11 @@ Page({
                 liked: 0,
             },
             {
+                id: 3,
+                unique: '3',
                 imageUrl: '../../images/loocup_cover_3.jpeg',
+                songID: '004fhMjV3GEuPe',
+                songType: 1,
                 songName: '供氧',
                 singerName: '郝雪',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -77,7 +98,11 @@ Page({
                 liked: 0,
             },
             {
+                id: 4,
+                unique: '4',
                 imageUrl: '../../images/loocup_cover_4.jpeg',
+                songID: '001zcQtx14EaiU',
+                songType: 1,
                 songName: '厌氧菌',
                 singerName: '郝雾',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -86,7 +111,11 @@ Page({
                 liked: 0,
             },
             {
+                id: 5,
+                unique: '5',
                 imageUrl: '../../images/loocup_cover_5.jpeg',
+                songID: '002ejEdb4KTwBw',
+                songType: 1,
                 songName: '氧气罩',
                 singerName: '郝霾',
                 desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
@@ -166,6 +195,7 @@ Page({
                 })
             }
             that.resetCardPositions(cardInfoList)
+            that.playFirstCardSong()
             
             // 最后一张卡片出来的时候，往往会因为加载图片而闪一下，我们要做个渐显动画
             // var lastCardShowAnimation = wx.createAnimation({
@@ -199,6 +229,63 @@ Page({
                 currentCardAnimation: {},
             })
         }, BackToCenterAnimationDuration);
+    },
+
+    playFirstCardSong: function() {
+        if (this.data.cardInfoList.length > 0) {
+            let backgroundAudioManager = wx.getBackgroundAudioManager();
+
+            if (this.data.playState == 'playing' && this.data.curPlayMid == mid) {
+                // 暂停
+                backgroundAudioManager.pause();
+                return;
+            }
+
+            if (this.data.curPlayMid == mid) {
+                // 续播
+                backgroundAudioManager.play();
+                return;
+            }
+
+            backgroundAudioManager.onPause(() => {
+                this.setData({
+                    playState: 'pause'
+                });
+            });
+
+            backgroundAudioManager.onStop(() => {
+                this.setData({
+                    playState: 'stop'
+                });
+            });
+
+            backgroundAudioManager.onError(() => {
+                this.setData({
+                    playState: 'error'
+                });
+            });
+
+            backgroundAudioManager.onPlay(() => {
+                this.setData({
+                    playState: 'playing'
+                });
+            });
+
+            let cardInfo = this.data.cardInfoList[0]
+            let mid = cardInfo.songID
+            let type = cardInfo.songType
+            util.getSongSrc([mid], [type], (url) => {
+                console.log('获取歌曲（mid=', mid, '，type=', type, '）播放URL：', url)
+                backgroundAudioManager.title = cardInfo.songName || ''
+                backgroundAudioManager.singer = cardInfo.singerName || ''
+                backgroundAudioManager.coverImgUrl = cardInfo.imageUrl
+                backgroundAudioManager.src = url
+                this.setData({
+                    curPlayMid: mid
+                })
+                backgroundAudioManager.play()
+            });
+        }
     },
 
     // 加载数据
