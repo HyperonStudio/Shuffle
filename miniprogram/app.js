@@ -15,6 +15,13 @@ App({
 
         this.globalData = {}
 
+        wx.getUserInfo({
+            success: function (res) {
+                getApp().userInfo = res.userInfo
+                console.log('UserInfo: ', res.userInfo)
+            }
+        })
+
         Util.login()
 
         Util.ajax({

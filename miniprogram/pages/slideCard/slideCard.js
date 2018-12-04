@@ -13,9 +13,6 @@ let MinSwipeDistance = 150;
 let CardTopDistance = 10;
 let CardScaleRate = 0.95;
 
-//ALL:假数据,若加载到服务器数据,可将ALL掷为[],在onLoad函数中请求服务器数据赋给ALL;(ps:记得在所有数据后面附上两条假数据,如下ALL中倒数这两条数据,因为这两条数据用于处理层叠效果,若改变其id,在对应的函数处理判断位置应该修改其判断值)
-//bug:ALL数据应为奇数条,不然会导致最后层叠效果无法消失
-//animationData(动画),want_hidden(点击要,将要隐藏起来),nowant_hidden 初始化对应的数据
 Page({
     data: {
         currentCardL: 0,
@@ -41,95 +38,24 @@ Page({
 
         playState: 'stop',
         curPlayMid: '',
-        
+
         want_hidden: false,
         nowant_hidden: true,
-        startPosition: {x:-1,y:-1},
-        All: [{
-                id: 0,
-                unique: '0',
-                imageUrl: '../../images/loocup_cover_0.jpeg',
-                songID: '000UCO6V0m01Ld',
-                songType: 1,
-                songName: '氧气',
-                singerName: '郝蕾',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            }, 
-            {
-                id: 1,
-                unique: '1',
-                imageUrl: '../../images/loocup_cover_1.png',
-                songID: '00314mUH1UwEeD',
-                songType: 1,
-                songName: '缺氧',
-                singerName: '郝雷',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            }, 
-            {
-                id: 2,
-                unique: '2',
-                imageUrl: '../../images/loocup_cover_2.jpeg',
-                songID: '004WTadw1lOact',
-                songType: 1,
-                songName: '臭氧',
-                singerName: '郝雨',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            },
-            {
-                id: 3,
-                unique: '3',
-                imageUrl: '../../images/loocup_cover_3.jpeg',
-                songID: '004fhMjV3GEuPe',
-                songType: 1,
-                songName: '供氧',
-                singerName: '郝雪',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            },
-            {
-                id: 4,
-                unique: '4',
-                imageUrl: '../../images/loocup_cover_4.jpeg',
-                songID: '001zcQtx14EaiU',
-                songType: 1,
-                songName: '厌氧菌',
-                singerName: '郝雾',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            },
-            {
-                id: 5,
-                unique: '5',
-                imageUrl: '../../images/loocup_cover_5.jpeg',
-                songID: '002ejEdb4KTwBw',
-                songType: 1,
-                songName: '氧气罩',
-                singerName: '郝霾',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
-                posterName: '东莞吴彦祖',
-                posterAvatarUrl: 'https://avatars3.githubusercontent.com/u/7379793?s=460&v=4',
-                liked: 0,
-            },
-        ]
+        startPosition: {
+            x: -1,
+            y: -1
+        },
+
+        allCardInfos: [],        
     },
 
     touchStart: function(event) {
         var touch = event.touches[0]
         this.setData({
-            startPosition: {x: touch.pageX, y: touch.pageY},
+            startPosition: {
+                x: touch.pageX,
+                y: touch.pageY
+            },
         })
     },
 
@@ -157,7 +83,7 @@ Page({
     animateSwipeOutCurrentCard: function(offsetX, offsetY) {
         var currentCardAnimation = wx.createAnimation({
             duration: SwipeOutAnimationDuration,
-            timingFunction: "ease",            
+            timingFunction: "ease",
         });
         currentCardAnimation.translateX(offsetX).translateY(offsetY).step();
 
@@ -181,12 +107,12 @@ Page({
 
         // 动画之后，改变数据源
         var that = this;
-        setTimeout(function () {
+        setTimeout(function() {
             var cardInfoList = that.data.cardInfoList;
-            cardInfoList.shift();            
-            if (that.data.All.length > 0) {
-                var lastCardInfo = that.data.All.shift();
-                cardInfoList.push(lastCardInfo)                
+            cardInfoList.shift();
+            if (that.data.allCardInfos.length > 0) {
+                var lastCardInfo = that.data.allCardInfos.shift();
+                cardInfoList.push(lastCardInfo)
             } else {
                 wx.showToast({
                     title: '已无更多',
@@ -196,7 +122,7 @@ Page({
             }
             that.resetCardPositions(cardInfoList)
             that.playFirstCardSong()
-            
+
             // 最后一张卡片出来的时候，往往会因为加载图片而闪一下，我们要做个渐显动画
             // var lastCardShowAnimation = wx.createAnimation({
             //     duration: 1000,
@@ -224,7 +150,7 @@ Page({
             currentCardT: this.currentCardStartT(),
         });
         var that = this
-        setTimeout(function () {
+        setTimeout(function() {
             that.setData({
                 currentCardAnimation: {},
             })
@@ -272,12 +198,12 @@ Page({
             });
 
             let cardInfo = this.data.cardInfoList[0]
-            let mid = cardInfo.songID
-            let type = cardInfo.songType
+            let mid = cardInfo.song.mid
+            let type = cardInfo.song.type
             util.getSongSrc([mid], [type], (url) => {
                 console.log('获取歌曲（mid=', mid, '，type=', type, '）播放URL：', url)
-                backgroundAudioManager.title = cardInfo.songName || ''
-                backgroundAudioManager.singer = cardInfo.singerName || ''
+                backgroundAudioManager.title = cardInfo.song.name || ''
+                backgroundAudioManager.singer = cardInfo.song.singer || ''
                 backgroundAudioManager.coverImgUrl = cardInfo.imageUrl
                 backgroundAudioManager.src = url
                 this.setData({
@@ -288,63 +214,37 @@ Page({
         }
     },
 
-    // 加载数据
-    //temp从ALL取出的数据
-    //cardInfoList:temp;将ALL取出的数据放入以供显示
-    //ballTop、ballLeft     第一张初始图片位置
-    //ballTop2、ballLeft2   第二张初始图片位置
-    //index1:6,index2:4,    两张图片初始的z-index
+    queryCardInfos: function() {
+        let that = this
+        wx.cloud.callFunction({
+            name: 'queryCardInfo',
+            data: {
+                
+            },
+            success: function (res) {
+                console.log('Query CardInfos:', res)
+                that.setData({
+                    allCardInfos: res.result.data,
+                })
+                that.reloadData()                
+            },
+            fail: console.error
+        })
+    },
+
+    reloadData: function() {
+        allCount = this.data.allCardInfos.length;
+        var cardInfoList = new Array();
+        for (let i = 0; i < 3; i++) {
+            cardInfoList.push(this.data.allCardInfos.shift());
+        }
+        this.resetCardPositions(cardInfoList)
+    },
 
     onLoad: function() {
-        var that = this;
-
-        // 请求服务器数据
-        // wx.request({
-        //   url: 'https://service.woyao.huoxingwan.com',
-        //   data: {},
-        //   method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-        //   // header: {}, // 设置请求的 header
-        //   success: function(res){
-        //     // success
-        //     console.log(res+"222");
-        //     // that.setData({
-        //       // All:res中的数组资源
-        //     // })
-        //   },
-        //   fail: function(res) {
-        //     // fail
-        //   },
-        //   complete: function(res) {
-        //     // complete
-        //   }
-        // })
-
-
-
-
-        //调用应用实例的方法获取全局数据
-        // 创建一个临时数组 ,用于加载值(2个)
-        allCount = that.data.All.length;
-        var temp = new Array();
-        for (let i = 0; i < 3; i++) {
-            var add = that.data.All.shift();
-            temp.push(add);
-        }
-        that.setData({
-            cardInfoList: temp,
-
-
-            ballTop: 62,
-            ballLeft: 76,
-            ballTop2: 62,
-            ballLeft2: 76,
-            index1: 6,
-            index2: 4,
-
-        })
-
+        let that = this
         wx.getSystemInfo({
-            success: function(res) {
+            success: function (res) {
                 // success
                 that.setData({
                     screenHeight: res.windowHeight,
@@ -353,11 +253,10 @@ Page({
 
             }
         })
-
-        this.resetCardPositions(this.data.cardInfoList)
+        this.queryCardInfos()
     },
 
-    resetCardPositions: function (cardInfoList) {
+    resetCardPositions: function(cardInfoList) {
         var currentCardAnimation = wx.createAnimation({
             duration: 0,
         });
@@ -393,53 +292,53 @@ Page({
         })
     },
 
-    currentCardStartL : function() {
+    currentCardStartL: function() {
         return this.data.screenWidth * 0.08;
     },
 
-    currentCardStartT: function () {
+    currentCardStartT: function() {
         return this.data.screenHeight * 0.05;
     },
 
-    currentCardStartW: function () {
+    currentCardStartW: function() {
         return this.data.screenWidth * 0.84;
     },
 
-    currentCardStartH: function () {
+    currentCardStartH: function() {
         return this.data.screenHeight * 0.84;
     },
 
-    middleCardStartL: function () {
+    middleCardStartL: function() {
         return this.currentCardStartL();
     },
 
-    middleCardStartT: function () {
+    middleCardStartT: function() {
         let heightDiff = this.currentCardStartH() * (1 - CardScaleRate) / 2;
         return this.currentCardStartT() - heightDiff - CardTopDistance;
     },
 
-    middleCardStartW: function () {
+    middleCardStartW: function() {
         return this.currentCardStartW();
     },
 
-    middleCardStartH: function () {
+    middleCardStartH: function() {
         return this.currentCardStartH();
     },
 
-    lastCardStartL: function () {
+    lastCardStartL: function() {
         return this.currentCardStartL();
     },
 
-    lastCardStartT: function () {
+    lastCardStartT: function() {
         let heightDiff = this.currentCardStartH() * (1 - CardScaleRate * CardScaleRate) / 2;
         return this.currentCardStartT() - heightDiff - CardTopDistance * 2;
     },
 
-    lastCardStartW: function () {
+    lastCardStartW: function() {
         return this.currentCardStartW();
     },
 
-    lastCardStartH: function () {
+    lastCardStartH: function() {
         return this.currentCardStartH();
     },
 })

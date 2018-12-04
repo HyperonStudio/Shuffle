@@ -99,7 +99,7 @@ page {
 
 .card_posterAvatar {
     position: absolute;
-    border-radius: 50%;
+    border-radius: 12px;
     width: 24px;
     height: 24px;
     left: 16px;

@@ -1,2 +1,5 @@
-<!--miniprogram/pages/postCard/postCard.wxml-->
-<text>miniprogram/pages/postCard/postCard.wxml</text>
+<!--index.wxml-->
+<view class="section">
+    <input placeholder="输入歌名" auto-focus bindinput="bindKeyInput"/>
+    <button bindtap="search">发布一个简单的Card</button>
+</view>
