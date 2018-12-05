@@ -37,5 +37,10 @@
     </navigator>
   </view>
 
+ <view class="uploader">
+    <navigator url="../userPage/userPage" open-type="navigate" class="uploader-text">
+      <text>个人信息页</text>
+    </navigator>
+  </view>
 
 </view>

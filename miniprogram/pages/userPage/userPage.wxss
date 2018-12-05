@@ -1,0 +1,128 @@
+/* miniprogram/pages/UserPage/UserPage.wxss */
+page {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.userinfo {  
+  position: relative;  
+  width: 100%;  
+  height: 190rpx;  
+  color: #fff;  
+  display: flex;  
+  flex-direction: row;  
+  align-items: left;  
+}  
+.userinfo-avatar {  
+  overflow:hidden;  
+  display: block;  
+  width: 120rpx;  
+  height: 120rpx;  
+  margin: 40rpx;  
+  margin-top: 17rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);   */
+}  
+
+.userinfo{  
+  /* color: #fff; */  
+  font-size: 24px;  
+  color: #FFFFFF  
+} 
+
+.infoarea{
+  display: flex;  
+  flex-direction: column; 
+}
+
+.collect{
+  display: flex;  
+  flex-direction: row; 
+  align-items: center;
+  margin-top: 10rpx
+}
+
+.collect-container{
+  display: flex;  
+  flex-direction: row; 
+  align-items: center;
+  margin-right: 72rpx;
+}
+
+.collect-label{
+    font-size: 14px;
+    margin-right: 2rpx;
+    color: #FFFFFF  
+}
+
+.collect-num{
+    font-size: 20px;
+    color: #FFFFFF 
+}
+
+.collections{
+    background: #000;
+    width: 100%;  
+    height: 77%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.switchLabel{
+    font-size: 20px;
+    margin-right: 43rpx;
+    color: #FFFFFF 
+}
+
+.switch-container{
+  display: flex;  
+  flex-direction: row; 
+  align-items: center;
+  margin-left: 60rpx;
+}
+
+.card-container{
+    margin-top: 48rpx;
+  display: grid;
+  width: 84%;
+  align-self: center;
+  doverflow-x: hidden;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 290rpx 290rpx;
+  grid-auto-rows: 290rpx;
+  grid-gap: 50rpx;
+}
+
+.card{
+    background: #FFFFFF;
+    width: 290rpx;
+    height: 290rpx;
+    border-radius: 4%;
+}
+
+.stars{
+    display: flex;
+    flex-direction: row;
+    width: 80rpx;
+    height: 30rpx;
+    border-radius: 16rpx;
+    background-color: #FFFFFF;
+    align-items: center;
+}
+
+.stars-logo{
+width: 22rpx;
+height: 22rpx;
+margin-left: 4rpx;
+margin-right: 2rpx;
+}
+
+.stars-num{
+width: 36rpx;
+height: 20rpx;
+
+}

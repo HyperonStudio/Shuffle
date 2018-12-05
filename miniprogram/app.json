@@ -2,7 +2,8 @@
     "pages": [
         "pages/index/index",
         "pages/slideCard/slideCard",
-        "pages/postCard/postCard"
+        "pages/postCard/postCard",
+        "pages/userPage/userPage"
     ],
     "window": {
         "backgroundColor": "#000000",
