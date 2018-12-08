@@ -51,6 +51,8 @@ page {
     height: 100%;
     background: #fff;
     border-radius: 4pt;
+    display: flex;
+    flex-direction: column;
 }
 
 .card_text_info {
@@ -99,7 +101,7 @@ page {
 
 .card_posterAvatar {
     position: absolute;
-    border-radius: 12px;
+    border-radius: 12px 12px 12px 12px;
     width: 24px;
     height: 24px;
     left: 16px;
@@ -110,12 +112,11 @@ page {
     position: absolute;
     font-size: 12px;
     letter-spacing: 2px;
-    border-radius: 50%;
     height: 17px;
     left: 54px;
     bottom: 17.5px;
     color: #fff;
-    opacity: 0.8
+    opacity: 0.8;
 }
 
 .info_light {
@@ -202,4 +203,22 @@ page {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     color: #fffff0;
+}
+
+.loading-tip {
+    width: 50%;
+    height: 50%;
+    font-size: 14px;
+    color: #fff;
+    margin: auto;
+    background-color: transparent;
+    text-align: center;
+}
+
+.card_like {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 11px;
+    bottom: 14px;
 }

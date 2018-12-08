@@ -39,122 +39,116 @@ Page({
         playState: 'stop',
         curPlayMid: '',
 
-        want_hidden: false,
-        nowant_hidden: true,
         startPosition: {
             x: -1,
             y: -1
         },
 
         allCardInfos: [],        
+        loadingText: '加载中...',
+        loadingTextHidden: false,
     },
 
-    touchStart: function(event) {
-        var touch = event.touches[0]
-        this.setData({
-            startPosition: {
-                x: touch.pageX,
-                y: touch.pageY
-            },
+    posterDidTap: function(e) {
+        let user = e.currentTarget.dataset.user
+        wx.navigateTo({
+            url: '../userPage/userPage?openid=' + user.openid,
         })
     },
 
-    touchMove: function(event) {
-        let pageX = event.touches[0].pageX
-        let pageY = event.touches[0].pageY
-        this.setData({
-            currentCardL: this.currentCardStartL() + pageX - this.data.startPosition.x,
-            currentCardT: this.currentCardStartT() + pageY - this.data.startPosition.y,
-        });
-    },
-
-
-    // 第一张移动结束处理动画
-    touchEnd: function(event) {
-        let x = event.currentTarget.offsetLeft - this.currentCardStartL()
-        let y = event.currentTarget.offsetTop - this.currentCardStartT()
-        if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
-            this.animateSwipeOutCurrentCard(x * 3, y * 3)
+    likeDidTap: function (e) {
+        let card = e.currentTarget.dataset.card
+        if (card.likedUserIDs.indexOf(app.globalData.openid) > -1) {
+            let that = this
+            wx.cloud.callFunction({
+                name: 'updateLikeCard',
+                data: {
+                    userID: app.globalData.openid,
+                    card: card,
+                    liked: false,
+                },
+                success: function (res) {
+                    console.log('Update unlike:', res)
+                    if (res.result.stats.updated == 1) {
+                        wx.showToast({
+                            title: '已取消收藏',
+                            icon: 'success',
+                            duration: 1000
+                        })
+                        that.updateCardInfoLikeStats(card, false)
+                        that.resetCardPositions(that.data.cardInfoList)
+                    }
+                },
+                fail: console.error
+            })
         } else {
-            this.animateCurrentCardBackToCenter(event.currentTarget.offsetLeft, event.currentTarget.offsetTop)
+            let that = this
+            wx.cloud.callFunction({
+                name: 'updateLikeCard',
+                data: {
+                    userID: app.globalData.openid,
+                    card: card,
+                    liked: true,
+                },
+                success: function (res) {                    
+                    console.log('Update like:', res)
+                    if (res.result.stats.updated == 1) {
+                        wx.showToast({
+                            title: '已收藏',
+                            icon: 'success',
+                            duration: 1000
+                        })
+                        that.updateCardInfoLikeStats(card, true)
+                        that.resetCardPositions(that.data.cardInfoList)
+                    }
+                },
+                fail: console.error
+            })
         }
     },
 
-    animateSwipeOutCurrentCard: function(offsetX, offsetY) {
-        var currentCardAnimation = wx.createAnimation({
-            duration: SwipeOutAnimationDuration,
-            timingFunction: "ease",
-        });
-        currentCardAnimation.translateX(offsetX).translateY(offsetY).step();
-
-        var middleCardAnimation = wx.createAnimation({
-            duration: SwipeOutAnimationDuration,
-            timingFunction: "ease",
-        })
-        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).step()
-
-        var lastCardAnimation = wx.createAnimation({
-            duration: SwipeOutAnimationDuration,
-            timingFunction: "ease",
-        })
-        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).step()
-
-        this.setData({
-            currentCardAnimation: currentCardAnimation.export(),
-            middleCardAnimation: middleCardAnimation.export(),
-            lastCardAnimation: lastCardAnimation.export(),
-        });
-
-        // 动画之后，改变数据源
-        var that = this;
-        setTimeout(function() {
-            var cardInfoList = that.data.cardInfoList;
-            cardInfoList.shift();
-            if (that.data.allCardInfos.length > 0) {
-                var lastCardInfo = that.data.allCardInfos.shift();
-                cardInfoList.push(lastCardInfo)
-            } else {
-                wx.showToast({
-                    title: '已无更多',
-                    icon: 'success',
-                    duration: 2000
-                })
+    updateCardInfoLikeStats(card, liked) {
+        if (liked) {
+            for (var i = 0; i < this.data.allCardInfos.length; i++) {
+                if (this.data.allCardInfos[i]._id == card._id) {
+                    this.data.allCardInfos[i]['likedUrl'] = ('../../images/card_info_liked.png')
+                    this.data.allCardInfos[i].likedUserIDs = card.likedUserIDs
+                    break
+                }
             }
-            that.resetCardPositions(cardInfoList)
-            that.playFirstCardSong()
-
-            // 最后一张卡片出来的时候，往往会因为加载图片而闪一下，我们要做个渐显动画
-            // var lastCardShowAnimation = wx.createAnimation({
-            //     duration: 1000,
-            //     timingFunction: "ease",
-            // })
-            // lastCardShowAnimation.opacity(1)
-            // that.setData({
-            //     lastCardAnimation: lastCardShowAnimation.export(),
-            //     lastCardOpacity: 1,
-            // });
-
-        }, SwipeOutAnimationDuration);
+            for (var i = 0; i < this.data.cardInfoList.length; i++) {
+                if (this.data.cardInfoList[i]._id == card._id) {
+                    this.data.cardInfoList[i]['likedUrl'] = ('../../images/card_info_liked.png')
+                    this.data.cardInfoList[i].likedUserIDs = card.likedUserIDs
+                    break
+                }
+            }
+        } else {
+            for (var i = 0; i < this.data.allCardInfos.length; i++) {
+                if (this.data.allCardInfos[i]._id == card._id) {
+                    this.data.allCardInfos[i]['likedUrl'] = ('../../images/card_info_like.png')
+                    this.data.allCardInfos[i].likedUserIDs = this.arrayWithout(this.data.allCardInfos[i].likedUserIDs, app.globalData.openid)
+                    break
+                }
+            }
+            for (var i = 0; i < this.data.cardInfoList.length; i++) {
+                if (this.data.cardInfoList[i]._id == card._id) {
+                    this.data.cardInfoList[i]['likedUrl'] = ('../../images/card_info_like.png')
+                    this.data.cardInfoList[i].likedUserIDs = this.arrayWithout(this.data.cardInfoList[i].likedUserIDs, app.globalData.openid)
+                    break
+                }
+            }
+        }
     },
 
-    animateCurrentCardBackToCenter: function(offsetX, offsetY) {
-        var animation = wx.createAnimation({
-            duration: BackToCenterAnimationDuration,
-            timingFunction: 'ease',
-        });
-        animation.left(this.currentCardStartL()).top(this.currentCardStartT()).translateX(0).translateY(0).step();
-
-        this.setData({
-            // currentCardAnimation: animation.export(),
-            currentCardL: this.currentCardStartL(),
-            currentCardT: this.currentCardStartT(),
-        });
-        var that = this
-        setTimeout(function() {
-            that.setData({
-                currentCardAnimation: {},
-            })
-        }, BackToCenterAnimationDuration);
+    arrayWithout: function(array, target) {
+        var newArray = []
+        for (var i = 0; i < array.length; i++) {
+            if (target != array[i]) {
+                newArray.push(array[i])
+            }
+        }
+        return newArray
     },
 
     playFirstCardSong: function() {
@@ -225,18 +219,38 @@ Page({
                 console.log('Query CardInfos:', res)
                 that.setData({
                     allCardInfos: res.result.data,
+                    loadingTextHidden: (res.result.data.length > 0),
                 })
+                that.prepareDatas()
                 that.reloadData()                
             },
-            fail: console.error
+            fail: function (err) {
+                console.log('Query CardInfos:', err)
+                that.setData({
+                    loadingText: '加载失败',
+                    loadingTextHidden: true,
+                })
+            }
         })
     },
 
+    prepareDatas: function() {
+        for (var i = 0; i < this.data.allCardInfos.length; i++) {
+            var cardInfo = this.data.allCardInfos[i]
+            cardInfo['likedUrl'] = (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1 ? '../../images/card_info_liked.png' : '../../images/card_info_like.png')
+            cardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
+        }
+    },
+
     reloadData: function() {
-        allCount = this.data.allCardInfos.length;
         var cardInfoList = new Array();
-        for (let i = 0; i < 3; i++) {
-            cardInfoList.push(this.data.allCardInfos.shift());
+        var count = this.data.allCardInfos.length
+        for (var i = 0; i < 3; i++) {
+            let card = this.data.allCardInfos.shift();
+            cardInfoList.push(card);
+            this.data.allCardInfos.push(card)
+            count--
+            if (count == 0) break;
         }
         this.resetCardPositions(cardInfoList)
     },
@@ -259,6 +273,7 @@ Page({
             this.setData({
                 allCardInfos: JSON.parse(option.cardData)
             })
+            this.prepareDatas()
             this.reloadData()
         }
         else
@@ -351,5 +366,113 @@ Page({
 
     lastCardStartH: function() {
         return this.currentCardStartH();
+    },
+
+    touchStart: function (event) {
+        var touch = event.touches[0]
+        this.setData({
+            startPosition: {
+                x: touch.pageX,
+                y: touch.pageY
+            },
+        })
+    },
+
+    touchMove: function (event) {
+        let pageX = event.touches[0].pageX
+        let pageY = event.touches[0].pageY
+        this.setData({
+            currentCardL: this.currentCardStartL() + pageX - this.data.startPosition.x,
+            currentCardT: this.currentCardStartT() + pageY - this.data.startPosition.y,
+        });
+    },
+
+
+    // 第一张移动结束处理动画
+    touchEnd: function (event) {
+        let x = this.data.currentCardL - this.currentCardStartL()
+        let y = this.data.currentCardT - this.currentCardStartT()
+        if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
+            this.animateSwipeOutCurrentCard(x * 3, y * 3)
+        } else {
+            this.animateCurrentCardBackToCenter(event.currentTarget.offsetLeft, event.currentTarget.offsetTop)
+        }
+    },
+
+    animateSwipeOutCurrentCard: function (offsetX, offsetY) {
+        var currentCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        });
+        currentCardAnimation.translateX(offsetX).translateY(offsetY).step();
+
+        var middleCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        })
+        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).step()
+
+        var lastCardAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        })
+        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).step()
+
+        this.setData({
+            currentCardAnimation: currentCardAnimation.export(),
+            middleCardAnimation: middleCardAnimation.export(),
+            lastCardAnimation: lastCardAnimation.export(),
+        });
+
+        // 动画之后，改变数据源
+        var that = this;
+        setTimeout(function () {
+            var cardInfoList = that.data.cardInfoList;
+            cardInfoList.shift();
+            if (that.data.allCardInfos.length > 0) {
+                var lastCardInfo = that.data.allCardInfos.shift();
+                cardInfoList.push(lastCardInfo)
+            } else {
+                wx.showToast({
+                    title: '已无更多',
+                    icon: 'success',
+                    duration: 2000
+                })
+            }
+            that.resetCardPositions(cardInfoList)
+            that.playFirstCardSong()
+
+            // 最后一张卡片出来的时候，往往会因为加载图片而闪一下，我们要做个渐显动画
+            // var lastCardShowAnimation = wx.createAnimation({
+            //     duration: 1000,
+            //     timingFunction: "ease",
+            // })
+            // lastCardShowAnimation.opacity(1)
+            // that.setData({
+            //     lastCardAnimation: lastCardShowAnimation.export(),
+            //     lastCardOpacity: 1,
+            // });
+
+        }, SwipeOutAnimationDuration);
+    },
+
+    animateCurrentCardBackToCenter: function (offsetX, offsetY) {
+        var animation = wx.createAnimation({
+            duration: BackToCenterAnimationDuration,
+            timingFunction: 'ease',
+        });
+        animation.left(this.currentCardStartL()).top(this.currentCardStartT()).translateX(0).translateY(0).step();
+
+        this.setData({
+            // currentCardAnimation: animation.export(),
+            currentCardL: this.currentCardStartL(),
+            currentCardT: this.currentCardStartT(),
+        });
+        var that = this
+        setTimeout(function () {
+            that.setData({
+                currentCardAnimation: {},
+            })
+        }, BackToCenterAnimationDuration);
     },
 })
