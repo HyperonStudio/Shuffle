@@ -259,6 +259,11 @@ Page({
             this.setData({
                 allCardInfos: JSON.parse(option.cardData)
             })
+
+            let length = this.data.allCardInfos.length
+            for (var i = 0; i < option.index; i++) {
+                this.data.allCardInfos[length - 1] = this.data.allCardInfos.splice(i, 1, this.data.allCardInfos[length-1])[0];
+            }
             this.reloadData()
         }
         else
