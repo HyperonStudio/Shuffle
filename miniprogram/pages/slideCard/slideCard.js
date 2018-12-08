@@ -112,14 +112,14 @@ Page({
             for (var i = 0; i < this.data.allCardInfos.length; i++) {
                 if (this.data.allCardInfos[i]._id == card._id) {
                     this.data.allCardInfos[i]['likedUrl'] = ('../../images/card_info_liked.png')
-                    this.data.allCardInfos[i].likedUserIDs = card.likedUserIDs
+                    this.data.allCardInfos[i].likedUserIDs.push(app.globalData.openid)
                     break
                 }
             }
             for (var i = 0; i < this.data.cardInfoList.length; i++) {
                 if (this.data.cardInfoList[i]._id == card._id) {
                     this.data.cardInfoList[i]['likedUrl'] = ('../../images/card_info_liked.png')
-                    this.data.cardInfoList[i].likedUserIDs = card.likedUserIDs
+                    this.data.cardInfoList[i].likedUserIDs.push(app.globalData.openid)
                     break
                 }
             }
