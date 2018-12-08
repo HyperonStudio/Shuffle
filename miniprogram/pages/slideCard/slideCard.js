@@ -50,9 +50,10 @@ Page({
     },
 
     posterDidTap: function(e) {
-        let user = e.currentTarget.dataset.user
+        let card = e.currentTarget.dataset.card
+        let user = card.poster
         wx.navigateTo({
-            url: '../userPage/userPage?openid=' + user.openid,
+            url: '../userPage/userPage?user=' + JSON.stringify(user) + '&openId=' + card.openid,
         })
     },
 
