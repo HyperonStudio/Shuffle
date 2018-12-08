@@ -16,6 +16,7 @@ exports.main = async (event, context) => {
     console.log('Liked: ', card.likedUserIDs)
 
     if (card.likedUserIDs.indexOf(userID) > -1 && liked == true) {
+        console.log('Already liked, return')
         return {
             result: {
                 stats: {
@@ -25,6 +26,7 @@ exports.main = async (event, context) => {
         }
     }
     if (card.likedUserIDs.indexOf(userID) <= -1 && liked == false) {
+        console.log('Already dislike, return')
         return {
             result: {
                 stats: {

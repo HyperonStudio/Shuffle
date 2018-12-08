@@ -9,9 +9,8 @@ Page({
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         collectNum: 0,
         beCollectedNum: 0,
-        UserName:'John',
+        userInfo:{},
         hostId:"",
-        Avatar:"",
         cardInfos: [],
         publishedCards:[],
         collectedCards:[],
@@ -22,18 +21,26 @@ Page({
     
     onLoad: function (option) {
         // 查看是否授权
-        wx.getSetting({
-            success(res) {
-                if (res.authSetting['scope.userInfo']) {
-                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                    wx.getUserInfo({
-                        success: function (res) {
-                            console.log(res.userInfo)
-                        }
-                    })
+        if (!option.userInfo)
+        {
+            wx.getSetting({
+                success(res) {
+                    if (res.authSetting['scope.userInfo']) {
+                        // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                        wx.getUserInfo({
+                            success: function (res) {
+                                
+                            }
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }
+        else
+        {
+
+        }
+        
 
         this.setData({
             hostId: option.userid
@@ -152,7 +159,6 @@ Page({
 
     navigateTo: function(e) {
         let toUrl = '../slideCard/slideCard?cardData=' + JSON.stringify(this.data.tabIndex == 0 ? this.data.publishedCards : this.data.collectedCards) + '&index=' + e.target.id
-        console.log(toUrl)
 
         wx.navigateTo({
             url: toUrl

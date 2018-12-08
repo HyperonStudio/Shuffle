@@ -2,6 +2,8 @@
 
 const util = require('../../util.js');
 const COS = require('../../cos-wx-sdk-v5.js');
+const color = require('../../color.js').color;
+const canvasId = "img-canvas";
 
 var app = getApp();
 var config = {
@@ -37,6 +39,7 @@ Page({
         song: null,
         songName: '添加歌曲',
         uploadedImageUrl: '',
+        magicColor:'#909090',
         desc: '',
     },
 
@@ -89,9 +92,20 @@ Page({
                     }
                 }, function(err, data) {
                     console.log(err || data);
+                    
                     that.setData({
                         uploadedImageUrl: data.Location,
                     })
+
+                    color.colors(data.Location, canvasId, {
+                        success: function (res) {
+                            that.setData({
+                                magicColor: color.rgbToHex(res.dominant),
+                            })
+                            },
+                        width: 240,
+                        height: 240
+                    });
                     if (err && err.error) {
                         wx.showModal({
                             title: '上传失败',
@@ -114,6 +128,11 @@ Page({
                 });
             }
         })
+    },
+
+
+    calculateThemeFinished: function (color) {
+        console.log('result color', color)
     },
 
     postCard: function() {
@@ -150,6 +169,7 @@ Page({
                 openid: app.globalData.openid,
                 poster: app.userInfo,
                 imageUrl: this.data.uploadedImageUrl,
+                magicColor: this.data.magicColor,
                 desc: this.data.desc,
                 time: currentDate.getTime(),
                 likedUserIDs: [],

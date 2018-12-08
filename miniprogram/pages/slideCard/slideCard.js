@@ -270,11 +270,19 @@ Page({
 
         if (option.cardData)
         {
-            this.setData({
-                allCardInfos: JSON.parse(option.cardData)
-            })
+            var array = JSON.parse(option.cardData)
+            let length = array.length
+            if (length > 0)
+            {
+                let before = array.slice(0, option.index);
+                let after = array.slice(option.index, length);
+                this.setData({
+                    allCardInfos: after.concat(before)
+                })
             this.prepareDatas()
-            this.reloadData()
+                this.reloadData()
+
+            }
         }
         else
         {
