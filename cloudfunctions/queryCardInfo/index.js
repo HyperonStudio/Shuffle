@@ -7,5 +7,5 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    return db.collection('CardInfo').get()
+    return db.collection('CardInfo').orderBy('time', 'desc').get()
 }

@@ -3,7 +3,8 @@
         "pages/index/index",
         "pages/slideCard/slideCard",
         "pages/postCard/postCard",
-        "pages/userPage/userPage"
+        "pages/userPage/userPage",
+        "pages/selectSong/selectSong"
     ],
     "window": {
         "backgroundColor": "#000000",

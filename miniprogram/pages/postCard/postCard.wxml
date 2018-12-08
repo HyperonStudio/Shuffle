@@ -2,7 +2,7 @@
 <view>
     <image class='uploadImage' bindtap='chooseImageAndUpload' src='{{uploadedImageUrl}}' mode='aspectFill'/>
     <view class='uploadImageTip' bindtap='chooseImageAndUpload'>点击更换图片</view>
-    <view class='addSong' bindtap='addSong'>添加歌曲</view>
-    <textarea class='desc' placeholder='心情' maxlength='40'></textarea>
-    <button class='submit' bindtap="search">发布</button>
+    <view class='addSong' bindtap='addSong'>{{songName}}</view>
+    <textarea class='desc' placeholder='心情' maxlength='40' bindinput='bindDescInput'></textarea>
+    <button class='submit' bindtap="postCard">发布</button>
 </view>
