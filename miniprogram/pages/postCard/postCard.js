@@ -34,7 +34,10 @@ Page({
     data: {
         inputValue: '',
         searchResult: [],
+        song: null,
+        songName: '添加歌曲',
         uploadedImageUrl: '',
+        desc: '',
     },
 
     /**
@@ -50,48 +53,20 @@ Page({
         })
     },
 
-    search: function() {
-        if (this.data.inputValue.length > 0) {
-            util.ajax({
-                url: 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp',
-                method: "GET",
-                data: {
-                    ct: 25,
-                    t: 0,
-                    aggr: 1,
-                    cr: 1,
-                    catZhida: 0,
-                    lossless: 0,
-                    flag_qc: 0,
-                    p: 0,
-                    n: 20,
-                    w: this.data.inputValue,
-                    needNewCode: 1,
-                    new_json: 1,
-                    format: 'json',
-                    platform: 'h5'
-                },
-                success: (res) => {
-                    res = res.data || {};
-                    if (res.code == 0 && res.data && res.data.song && res.data.song.list && res.data.song.list.length) {
-                        let formattedSongList = res.data.song.list.map((song) => {
-                            return util.simpleSongInfo(song);
-                        });
-                        this.setData({
-                            searchResult: this.data.searchResult.concat(formattedSongList)
-                        });
-                        this.postCard()
-                    } else {
-                        this.setData({
-                            searchResult: []
-                        });
-                    }
-                },
-                fail: function(err) {
-                    util.tip('搜索失败');
-                }
-            });
-        }
+    changeSong: function (song) {
+        this.setData({
+            song: song,
+            songName: song.name,
+        })
+        wx.navigateBack({
+            
+        })
+    },
+
+    bindDescInput: function (e) {
+        this.setData({
+            desc: e.detail.value
+        })
     },
 
     chooseImageAndUpload: function() {
@@ -142,32 +117,70 @@ Page({
     },
 
     postCard: function() {
-        let song = this.data.searchResult[0];
+        if (this.data.song == null) {
+            wx.showToast({
+                title: '请选择歌曲',
+                icon: 'none',
+                duration: 1000
+            });
+            return
+        }
+        if (this.data.uploadedImageUrl.length == 0) {
+            wx.showToast({
+                title: '请选择图片上传',
+                icon: 'none',
+                duration: 1000
+            });
+            return
+        }
+        if (this.data.desc.length == 0) {
+            wx.showToast({
+                title: '请输入心情',
+                icon: 'none',
+                duration: 1000
+            });
+            return
+        }
+
+        let song = this.data.song;
         const db = wx.cloud.database()
         var currentDate = new Date()
         db.collection('CardInfo').add({
             data: {
                 openid: app.globalData.openid,
                 poster: app.userInfo,
-                imageUrl: 'https://6465-dev-cabb1f-1258145366.tcb.qcloud.la/loocup_cover_0.jpeg?sign=084b4497a91f3e7c0fb2faa115141932&t=1543934657',
-                desc: '所有的光芒都向我涌来，所有的氧气都被我吸光，所有的物体都失去重量......',
+                imageUrl: this.data.uploadedImageUrl,
+                desc: this.data.desc,
                 time: currentDate.getTime(),
                 likedUserIDs: [],
                 song: song,
             },
             success: res => {
                 wx.showToast({
-                    title: '新增记录成功',
+                    title: '发布成功',
+                    duration: 1000,
                 })
                 console.log('[CardInfo] [新增记录] 成功，记录 _id: ', res._id)
+                setTimeout(function () {
+                    wx.navigateBack({
+
+                    })
+                }, 1000);
+                
             },
             fail: err => {
                 wx.showToast({
                     icon: 'none',
-                    title: '新增记录失败'
+                    title: '发布失败'
                 })
                 console.error('[CardInfo] [新增记录] 失败：', err)
             }
+        })
+    },
+
+    addSong: function() {
+        wx.navigateTo({
+            url: '../selectSong/selectSong',
         })
     },
 

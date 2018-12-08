@@ -1,0 +1,105 @@
+/* miniprogram/pages/postCard/postCard.wxss */
+
+page {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pageContainer {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchHead {
+    flex: none;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.searchResult {
+    flex: auto;
+    position: relative;
+}
+
+.searchResult scroll-view{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.input {
+    width: 80%;
+    height: 30px;
+    background: #333;
+    margin-top: 4px;
+    margin-left: 4px;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.searchButton {
+    width: 60px;
+    height: 26px;
+    margin-top: 4px;
+    margin-right: 4px;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 4px;
+    padding-top: 4px;
+    text-align: center;
+}
+
+.songHorizontal {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+}
+
+.songInfo {
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.songName {
+    width: 100%;
+    height: 20px;
+    margin-left: 10px;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    max-lines: 1;
+    padding-top: 4px;
+}
+
+.songSinger {
+    width: 100%;
+    height: 14px;
+    margin-left: 10px;
+    color: #fff;
+    font-size: 10px;
+    text-align: left;
+    max-lines: 1;
+}
+
+.loading {
+    padding: 10rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+}
+
+.loading.complete:before {
+    display: none;
+    color: #fff;
+    font-size: 13px;
+}
