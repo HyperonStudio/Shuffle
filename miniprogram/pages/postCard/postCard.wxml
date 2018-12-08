@@ -1,8 +1,9 @@
 <!--index.wxml-->
 <view>
-    <canvas canvas-id='img-canvas' class='uploadImage' bindtap='chooseImageAndUpload' mode='aspectFill'></canvas>
+    <image class='uploadImage' bindtap='chooseImageAndUpload' mode='aspectFill' src='{{uploadedImageUrl}}'></image>
     <view class='uploadImageTip' bindtap='chooseImageAndUpload'>点击更换图片</view>
     <view class='addSong' bindtap='addSong'>{{songName}}</view>
     <textarea class='desc' placeholder='心情' maxlength='40' bindinput='bindDescInput'></textarea>
     <button class='submit' bindtap="postCard">发布</button>
 </view>
+<canvas canvas-id='img-canvas' hidden='true'></canvas>
