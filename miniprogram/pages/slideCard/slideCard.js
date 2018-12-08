@@ -217,12 +217,19 @@ Page({
             },
             success: function (res) {
                 console.log('Query CardInfos:', res)
-                that.setData({
-                    allCardInfos: res.result.data,
-                    loadingTextHidden: (res.result.data.length > 0),
-                })
-                that.prepareDatas()
-                that.reloadData()                
+                if (res.result.data.length > 0) {
+                    that.setData({
+                        allCardInfos: res.result.data,
+                        loadingTextHidden: true,
+                    })
+                    that.prepareDatas()
+                    that.reloadData()   
+                } else {
+                    that.setData({
+                        loadingText: '没有卡片！',
+                        loadingTextHidden: false,
+                    })
+                }                             
             },
             fail: function (err) {
                 console.log('Query CardInfos:', err)
