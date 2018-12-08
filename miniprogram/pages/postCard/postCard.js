@@ -76,7 +76,7 @@ Page({
         let that = this;
         wx.chooseImage({
             count: 1,
-            sizeType: ['original'],
+            sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success: function(res) {
                 cos.postObject({
@@ -96,15 +96,16 @@ Page({
                     that.setData({
                         uploadedImageUrl: data.Location,
                     })
-
-                    color.colors(data.Location, canvasId, {
+                    console.log("uploadedImageUrl", res.tempFilePaths[0])
+                    color.colors(res.tempFilePaths[0], canvasId, {
                         success: function (res) {
+                            console.log('转换成功', color.rgbToHex(res.dominant))
                             that.setData({
                                 magicColor: color.rgbToHex(res.dominant),
                             })
-                            },
+                        },
                         width: 240,
-                        height: 240
+                        height: 480
                     });
                     if (err && err.error) {
                         wx.showModal({
