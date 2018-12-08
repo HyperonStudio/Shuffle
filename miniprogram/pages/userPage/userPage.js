@@ -17,33 +17,37 @@ Page({
         firstfontWeight: 700,
         secondfontWeight: 400,
         tabIndex:0, //0 表示发布页， 1 表示收藏页
+        user:{},
     },
     
     onLoad: function (option) {
         // 查看是否授权
-        if (!option.userInfo)
-        {
-            wx.getSetting({
-                success(res) {
-                    if (res.authSetting['scope.userInfo']) {
-                        // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                        wx.getUserInfo({
-                            success: function (res) {
+        // if (!option.user)
+        // {
+        //     wx.getSetting({
+        //         success(res) {
+        //             if (res.authSetting['scope.userInfo']) {
+        //                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+        //                 wx.getUserInfo({
+        //                     success: function (res) {
                                 
-                            }
-                        })
-                    }
-                }
-            })
-        }
-        else
-        {
+        //                     }
+        //                 })
+        //             }
+        //         }
+        //     })
+        // }
+        // else
+        // {
+            
+        // }
 
-        }
-        
+        let openId = option.openId
+        let user = JSON.parse(option.user)
 
         this.setData({
-            hostId: option.userid
+            hostId: openId,
+            user: user,
         })
 
         if(!this.data.hostId)
@@ -54,56 +58,6 @@ Page({
         }
         this.queryCardInfos()
     },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
-    },
-
 
     bindGetUserInfo(e) {
         app.userInfo = e.detail.userInfo

@@ -33,6 +33,11 @@ page {
   color: #FFFFFF  
 } 
 
+.user-name {
+    font-size: 22px;
+    color: #FFFFFF  
+}
+
 .infoarea{
   display: flex;  
   flex-direction: column; 

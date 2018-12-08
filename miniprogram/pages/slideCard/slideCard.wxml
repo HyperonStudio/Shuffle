@@ -14,8 +14,8 @@
                                 <view class="card_singerName">{{item.song.singer}}</view>
                             </view>
                             <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
-                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-user='{{item.poster}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-user='{{item.poster}}'>{{item.poster.nickName}}</view>
+                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
+                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
@@ -32,8 +32,8 @@
                                 <view class="card_singerName">{{item.song.singer}}</view>
                             </view>
                             <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
-                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-user='{{item.poster}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-user='{{item.poster}}'>{{item.poster.nickName}}</view>
+                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
+                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
@@ -50,8 +50,8 @@
                                 <view class="card_singerName">{{item.song.singer}}</view>
                             </view>
                             <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
-                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-user='{{item.poster}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-user='{{item.poster}}'>{{item.poster.nickName}}</view>
+                            <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
+                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
