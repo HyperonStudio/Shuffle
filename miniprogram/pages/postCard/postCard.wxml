@@ -1,8 +1,7 @@
 <!--index.wxml-->
 <view>
-
-    <image class='uploadImage' bindtap='chooseImageAndUpload' />
-    <view class='uploadImageTip'>点击更换图片</view>
+    <image class='uploadImage' bindtap='chooseImageAndUpload' src='{{uploadedImageUrl}}' mode='aspectFill'/>
+    <view class='uploadImageTip' bindtap='chooseImageAndUpload'>点击更换图片</view>
     <view class='addSong' bindtap='addSong'>添加歌曲</view>
     <textarea class='desc' placeholder='心情' maxlength='40'></textarea>
     <button class='submit' bindtap="search">发布</button>

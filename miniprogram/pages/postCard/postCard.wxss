@@ -16,6 +16,7 @@ page {
     margin-right: auto;
     background: #ffffff11;
     margin-top: 16px;
+    object-fit: cover;    
 }
 
 .uploadImageTip {
