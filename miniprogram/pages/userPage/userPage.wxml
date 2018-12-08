@@ -9,11 +9,11 @@
     <view class='collect'>
     <view class='collect-container'>
     <label class='collect-label'>被收藏</label>
-    <label class='collect-num'>0</label>
+    <label class='collect-num'>{{beCollectedNum}}</label>
     </view>
     <view class='collect-container'>
     <label class='collect-label'>收藏</label>
-    <label class='collect-num'>0</label>
+    <label class='collect-num'>{{collectNum}}</label>
      </view>
     </view>
   </view>
@@ -25,7 +25,7 @@
 </view>
 
 <view class='card-container' >
-<image class='card' wx:for="{{cardInfos}}" src="{{item.imageUrl}}"> </image>
+<image class='card' wx:for="{{cardInfos}}" id='{{index}}' src="{{item.imageUrl}}" bindtap='navigateTo'> </image>
 </view>
 
 </view>  

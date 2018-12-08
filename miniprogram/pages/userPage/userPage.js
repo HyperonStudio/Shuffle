@@ -1,11 +1,17 @@
 // miniprogram/pages/UserPage/UserPage.js
-Page({
+var app = getApp();
 
+Page({
     /**
      * 页面的初始数据
      */
     data: {
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
+        collectNum: 0,
+        beCollectedNum: 0,
+        UserName:'John',
+        hostId:"",
+        Avatar:"",
         cardInfos: [],
         publishedCards:[],
         collectedCards:[],
@@ -14,7 +20,7 @@ Page({
         tabIndex:0, //0 表示发布页， 1 表示收藏页
     },
     
-    onLoad: function () {
+    onLoad: function (option) {
         // 查看是否授权
         wx.getSetting({
             success(res) {
@@ -29,6 +35,16 @@ Page({
             }
         })
 
+        this.setData({
+            hostId: option.userid
+        })
+
+        if(!this.data.hostId)
+        {
+            this.setData({
+                hostId: app.globalData.openid
+            }) 
+        }
         this.queryCardInfos()
     },
 
@@ -90,9 +106,9 @@ Page({
     queryCardInfos: function () {
         let that = this
         wx.cloud.callFunction({
-            name: 'queryCardInfo',
+            name: 'queryPublishedCard',
             data: {
-
+                openid: this.data.hostId,
             },
             success: function (res) {
                 console.log('Query Personal CardInfos:', res)
@@ -132,5 +148,14 @@ Page({
             tabIndex:reply,
         })
         this.reloadData()
+    },
+
+    navigateTo: function(e) {
+        let toUrl = '../slideCard/slideCard?cardData=' + JSON.stringify(this.data.tabIndex == 0 ? this.data.publishedCards : this.data.collectedCards) + '&index=' + e.target.id
+        console.log(toUrl)
+
+        wx.navigateTo({
+            url: toUrl
+        })
     }
 })

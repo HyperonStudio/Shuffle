@@ -241,7 +241,7 @@ Page({
         this.resetCardPositions(cardInfoList)
     },
 
-    onLoad: function() {
+    onLoad: function(option) {
         let that = this
         wx.getSystemInfo({
             success: function (res) {
@@ -253,7 +253,18 @@ Page({
 
             }
         })
-        this.queryCardInfos()
+
+        if (option.cardData)
+        {
+            this.setData({
+                allCardInfos: JSON.parse(option.cardData)
+            })
+            this.reloadData()
+        }
+        else
+        {
+            this.queryCardInfos()
+        }
     },
 
     resetCardPositions: function(cardInfoList) {

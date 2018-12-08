@@ -60,6 +60,7 @@ page {
 
 .collect-num{
     font-size: 20px;
+    font-weight: bold;
     color: #FFFFFF 
 }
 
