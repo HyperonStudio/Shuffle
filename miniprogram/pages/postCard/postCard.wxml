@@ -1,11 +1,9 @@
 <!--index.wxml-->
 <view>
 
-    <image class='uploadImage' bindtap='chooseImageAndUpload'/>
+    <image class='uploadImage' bindtap='chooseImageAndUpload' />
     <view class='uploadImageTip'>点击更换图片</view>
-    <view class='addSong' bindtap='addSong'>
-        <view class='addSongText'>添加歌曲</view>
-    </view>
-    <input placeholder="输入歌名" auto-focus bindinput="bindKeyInput"/>
-    <button bindtap="search">发布一个简单的Card</button>
+    <view class='addSong' bindtap='addSong'>添加歌曲</view>
+    <textarea class='desc' placeholder='心情' maxlength='40'></textarea>
+    <button class='submit' bindtap="search">发布</button>
 </view>

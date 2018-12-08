@@ -14,7 +14,7 @@ page {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background: #fff;
+    background: #ffffff11;
     margin-top: 16px;
 }
 
@@ -33,28 +33,50 @@ page {
 
 .addSong {
     width: 80%;
-    height: 34px;
+    height: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
     border-radius: 4px;
     margin-top: 36px;
-    opacity: 0.1;
-    background: #fff;
+    background-color: #ffffff11;
+    text-align: left;
+    color: white;
+    font-size: 13px;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
-.addSongText {
-    width: 54px;
-    height: 50%;
-    opacity: 0.8;
-    margin-left: 10px;
-    /* color: #fff; */
-    font-size: 13px;
+.desc {
+    width: 83%;
+    height: 112px;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 16px;
+    background-color: #ffffff11;
+    resize: none;
+    font-size: 14px;
+    color: white;
+}
+
+.submit {
+    width: 83%;
+    height: 34px;
+    border-radius: 17px;
+    border-width: 1px;
+    border-color: #fff;
+    border-style: solid;
+    font-size: 16px;
+    color: #fff;
+    background-color: #000;
     line-height: 18px;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    letter-spacing: 2px;
+    margin-top: 58px;
+    text-align: center;
+    text-decoration: none;
+    padding-top: 7px;
 }
