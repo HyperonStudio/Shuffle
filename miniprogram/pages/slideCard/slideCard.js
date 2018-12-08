@@ -256,15 +256,19 @@ Page({
 
         if (option.cardData)
         {
-            this.setData({
-                allCardInfos: JSON.parse(option.cardData)
-            })
+            var array = JSON.parse(option.cardData)
+            let length = array.length
+            if (length > 0)
+            {
+                let before = array.slice(0, option.index);
+                let after = array.slice(option.index, length);
+                this.setData({
+                    allCardInfos: after.concat(before)
+                })
+                this.reloadData()
 
-            let length = this.data.allCardInfos.length
-            for (var i = 0; i < option.index; i++) {
-                this.data.allCardInfos[length - 1] = this.data.allCardInfos.splice(i, 1, this.data.allCardInfos[length-1])[0];
             }
-            this.reloadData()
+
         }
         else
         {
@@ -358,3 +362,4 @@ Page({
         return this.currentCardStartH();
     },
 })
+
