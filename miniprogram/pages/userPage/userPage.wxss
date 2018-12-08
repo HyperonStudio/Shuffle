@@ -76,6 +76,7 @@ page {
     font-size: 20px;
     margin-right: 43rpx;
     color: #FFFFFF 
+
 }
 
 .switch-container{
@@ -95,6 +96,7 @@ page {
   grid-template-rows: 290rpx 290rpx;
   grid-auto-rows: 290rpx;
   grid-gap: 50rpx;
+  margin-bottom: 50rpx;
 }
 
 .card{
