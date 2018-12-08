@@ -7,7 +7,7 @@
             <block wx:if="{{index==0}}">
                 <view class="card_item card1" hidden="{{hidden1}}" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style=" z-index:3;position:absolute;top:{{currentCardT}}px; left: {{currentCardL}}px; width:{{currentCardW}}px; height:{{currentCardH}}px;"
                     animation="{{currentCardAnimation}}">
-                    <view class="card_info" style='background-color:#909090'>
+                    <view class="card_info" style='background-color:{{item.magicColor}}'>
                         <image class='card_image' src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
                         <view class='card_text_info'>
                             <view class="info_top">
