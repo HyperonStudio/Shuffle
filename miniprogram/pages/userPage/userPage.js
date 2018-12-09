@@ -57,6 +57,7 @@ Page({
             }) 
         }
         this.queryCardInfos()
+        this.queryCollectedCardInfos()
     },
 
     bindGetUserInfo(e) {
@@ -75,6 +76,49 @@ Page({
                 console.log('Query Personal CardInfos:', res)
                 that.setData({
                     publishedCards: res.result.data,
+                    
+                })
+                that.reloadData()
+            },
+            fail: console.error
+        })
+    },
+
+    queryCollectedCardInfos: function () {
+        let that = this
+        wx.cloud.callFunction({
+            name: 'queryCollectedCard',
+            data: {
+
+            },
+            success: function (res) {
+                console.log('Query Collected CardInfos:', res)
+                var resultList = res.result.data;
+                var filterdList = new Array();
+                var numbecollect = 0;
+
+                for (var i=0; i<resultList.length; i++)
+                {
+                    var cardInfo = resultList[i]
+                    if (cardInfo._openid == that.data.hostId)
+                    {
+                        numbecollect += cardInfo.likedUserIDs.length;
+                    }
+                    for (var j = 0; j < cardInfo.likedUserIDs.length;j++)
+                    {
+                        var userid = cardInfo.likedUserIDs[j]
+                        if (userid == that.data.hostId)
+                        {
+                            filterdList.push(cardInfo);
+                            continue
+                        }
+                    }
+                }
+                console.log('filtered', filterdList)
+                that.setData({
+                    collectedCards: filterdList,
+                    collectNum: filterdList.length,
+                    beCollectedNum: numbecollect
                 })
                 that.reloadData()
             },
