@@ -9,6 +9,16 @@ page {
     justify-content: flex-start;
 }
 
+.operation_layout {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 42px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
 .card_wrap {
     background: #f2f2f6;
     position: relative;
@@ -114,9 +124,9 @@ page {
 
 .card_posterAvatar {
     position: absolute;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
+    border-radius: 24rpx;
+    width: 48rpx;
+    height: 48rpx;
     left: 16px;
     bottom: 14px;
 }
@@ -147,3 +157,23 @@ page {
     height: 3px;
     background-color: #fff;
 }
+
+.card_toggle {
+    position: absolute;
+    bottom: 14rpx;
+    right: 10rpx;
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.loading-tip { 
+    width: 50%; 
+    height: 50%; 
+    font-size: 14px; 
+    color: #fff; 
+    margin: auto; 
+    background-color: transparent; 
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%); 
+} 

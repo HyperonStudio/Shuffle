@@ -1,6 +1,10 @@
 <!--index.wxml-->
 <view class="container">
     <view class='loading-tip' hidden='{{loadingTextHidden}}'>{{loadingText}}</view>
+    <view class='operation_layout'>
+        <image style='width:46rpx;height:46rpx' src='../../images/my_card.png' bindtap='myCardButtonDidClick'></image>
+        <image style='width:46rpx;height:46rpx' src='../../images/post.png' bindtap='postButtonDidClick'></image>
+    </view>
     <view class="card_wrap" disable-scroll="true">
         <view wx:for="{{ cardInfoList }}" wx:key="unique" wx:for-index="index" wx:for-item="item">
             <block wx:if="{{index==0}}">
@@ -8,8 +12,9 @@
                     animation="{{currentCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
                         <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'>
-                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
-                            <view style='width:{{currentCardW}}px;' class='card_progress'></view>
+                            <image class='card_image' src="{{item.imageUrl}}" mode='aspectFill' style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
+                            <view style='width:{{songProgress * currentCardW}}px;' class='card_progress'></view>
+                            <image class='card_toggle' src='{{songToggleButtonImageName}}' bindtap='songToggleButtonDidClick'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{currentCardW}}px; width:{{currentCardW}}px; height:{{currentCardH - currentCardW}}px;'>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
@@ -29,8 +34,9 @@
                 <view class="card_item card1" hidden="{{hidden1}}" style="opacity:{{middleCardA}}; z-index:2;position:absolute;top:{{middleCardT}}px; left: {{middleCardL}}px; width:{{middleCardW}}px; height:{{middleCardH}}px;" animation="{{middleCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
                         <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{middleCardW}}px;'>
-                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{middleCardW}}px; height:{{middleCardW}}px;'></image>
+                            <image class='card_image' src="{{item.imageUrl}}" mode='aspectFill' style='width:{{middleCardW}}px; height:{{middleCardW}}px;'></image>
                             <view style='width:{{middleCardW}}px;' class='card_progress'></view>
+                            <image class='card_toggle' src='../../images/card_info_play.png'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{middleCardW}}px; width:{{middleCardW}}px; height:{{middleCardH - middleCardW}}px;'>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
@@ -50,8 +56,9 @@
                 <view class="card_item card1" hidden="{{hidden1}}" style="opacity:{{lastCardA}}; z-index:1;position:absolute;top:{{lastCardT}}px; left: {{lastCardL}}px; width:{{lastCardW}}px; height:{{lastCardH}}px;" animation="{{lastCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
                         <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{lastCardW}}px;'>
-                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{lastCardW}}px; height:{{lastCardW}}px;'></image>
+                            <image class='card_image' src="{{item.imageUrl}}" mode='aspectFill' style='width:{{lastCardW}}px; height:{{lastCardW}}px;'></image>
                             <view style='width:{{lastCardW}}px;' class='card_progress'></view>
+                            <image class='card_toggle' src='../../images/card_info_play.png'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{lastCardW}}px; width:{{lastCardW}}px; height:{{lastCardH - lastCardW}}px;'>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">

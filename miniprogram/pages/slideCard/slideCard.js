@@ -19,7 +19,7 @@ Page({
         currentCardT: 0,
         currentCardW: 0,
         currentCardH: 0,
-        currentCardA: 1,
+        currentCardA: 1,        
         currentCardAnimation: {},
 
         middleCardL: 0,
@@ -41,6 +41,8 @@ Page({
 
         playState: 'stop',
         curPlayMid: '',
+        songProgress: 0,
+        songToggleButtonImageName: '../../images/card_info_play.png',
 
         startPosition: {
             x: -1,
@@ -57,6 +59,22 @@ Page({
         let user = card.poster
         wx.navigateTo({
             url: '../userPage/userPage?user=' + JSON.stringify(user) + '&openId=' + card.openid,
+        })
+    },
+
+    songToggleButtonDidClick: function(e) {
+        this.playOrPause()
+    },
+
+    myCardButtonDidClick: function(e) {
+        wx.navigateTo({
+            url: '../userPage/userPage?user=' + JSON.stringify(app.userInfo) + '&openId=' + app.globalData.openid,
+        })
+    },
+
+    postButtonDidClick: function(e) {
+        wx.navigateTo({
+            url: '../postCard/postCard',
         })
     },
 
@@ -155,6 +173,15 @@ Page({
         return newArray
     },
 
+    playOrPause: function() {
+        let backgroundAudioManager = wx.getBackgroundAudioManager();
+        if (!backgroundAudioManager.paused) {
+            backgroundAudioManager.pause()
+        } else {
+            backgroundAudioManager.play()
+        }
+    },
+
     playFirstCardSong: function() {
         if (this.data.cardInfoList.length > 0) {
             let backgroundAudioManager = wx.getBackgroundAudioManager();
@@ -173,26 +200,40 @@ Page({
 
             backgroundAudioManager.onPause(() => {
                 this.setData({
-                    playState: 'pause'
+                    playState: 'pause',
+                    songToggleButtonImageName: '../../images/card_info_play.png',
                 });
             });
 
             backgroundAudioManager.onStop(() => {
                 this.setData({
-                    playState: 'stop'
+                    playState: 'stop',
+                    songToggleButtonImageName: '../../images/card_info_play.png',
                 });
             });
 
             backgroundAudioManager.onError(() => {
                 this.setData({
-                    playState: 'error'
+                    playState: 'error',
+                    songToggleButtonImageName: '../../images/card_info_play.png',
                 });
             });
 
             backgroundAudioManager.onPlay(() => {
                 this.setData({
-                    playState: 'playing'
+                    playState: 'playing',
+                    songToggleButtonImageName: '../../images/card_info_pause.png',
                 });
+            });
+
+            backgroundAudioManager.onTimeUpdate(() => {
+                this.setData({
+                    songProgress: backgroundAudioManager.currentTime / backgroundAudioManager.duration
+                });
+            });
+
+            backgroundAudioManager.onEnded(() => {
+                this.animateSwipeOutCurrentCard(0, -this.data.screenHeight)
             });
 
             let cardInfo = this.data.cardInfoList[0]
@@ -208,6 +249,10 @@ Page({
                     curPlayMid: mid
                 })
                 backgroundAudioManager.play()
+                setTimeout(function() {
+                    backgroundAudioManager.seek(backgroundAudioManager.duration - 10)
+                }, 1000)
+                
             });
         }
     },
@@ -263,6 +308,7 @@ Page({
             if (count == 0) break;
         }
         this.resetCardPositions(cardInfoList)
+        this.playFirstCardSong()
     },
 
     onLoad: function(option) {
@@ -406,6 +452,27 @@ Page({
     touchEnd: function(event) {
         let x = this.data.currentCardL - this.currentCardStartL()
         let y = this.data.currentCardT - this.currentCardStartT()
+
+        if (x == 0 
+            && y == 0
+            && this.currentCardStartL() + this.currentCardStartW() - 60 <= this.data.startPosition.x
+            && this.data.startPosition.x <= this.currentCardStartL() + this.currentCardStartW()
+            && this.currentCardStartT() + this.currentCardStartW() - 64 <= this.data.startPosition.y
+            && this.data.startPosition.y <= this.currentCardStartT() + this.currentCardStartW()) {
+            this.songToggleButtonDidClick()
+            return;
+        }
+
+        if (x == 0
+            && y == 0
+            && this.currentCardStartL() + this.currentCardStartW() - 60 <= this.data.startPosition.x
+            && this.data.startPosition.x <= this.currentCardStartL() + this.currentCardStartW()
+            && this.currentCardStartT() + this.currentCardStartW() - 64 <= this.data.startPosition.y
+            && this.data.startPosition.y <= this.currentCardStartT() + this.currentCardStartW()) {
+            this.songToggleButtonDidClick()
+            return;
+        }
+
         if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
             this.animateSwipeOutCurrentCard(x * 3, y * 3)
         } else {

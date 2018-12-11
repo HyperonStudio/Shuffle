@@ -38,7 +38,7 @@ Page({
         searchResult: [],
         song: null,
         songName: '添加歌曲',
-        uploadedImageUrl: '',
+        uploadedImageUrl: '../../images/post_default_image.png',
         magicColor:'#909090',
         desc: '',
     },
