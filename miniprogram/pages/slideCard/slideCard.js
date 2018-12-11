@@ -19,12 +19,14 @@ Page({
         currentCardT: 0,
         currentCardW: 0,
         currentCardH: 0,
+        currentCardA: 1,
         currentCardAnimation: {},
 
         middleCardL: 0,
         middleCardL: 0,
         middleCardW: 0,
         middleCardH: 0,
+        middleCardA: 0.2,
         middleCardScaleW: 1,
         middleCardScaleH: 1,
         middleCardAnimation: {},
@@ -33,6 +35,7 @@ Page({
         lastCardL: 0,
         lastCardW: 0,
         lastCardH: 0,
+        lastCardA: 0.1,
         lastCardAnimation: {},
         lastCardOpacity: 1,
 
@@ -44,7 +47,7 @@ Page({
             y: -1
         },
 
-        allCardInfos: [],        
+        allCardInfos: [],
         loadingText: '加载中...',
         loadingTextHidden: false,
     },
@@ -57,7 +60,7 @@ Page({
         })
     },
 
-    likeDidTap: function (e) {
+    likeDidTap: function(e) {
         let card = e.currentTarget.dataset.card
         if (card.likedUserIDs.indexOf(app.globalData.openid) > -1) {
             let that = this
@@ -68,7 +71,7 @@ Page({
                     card: card,
                     liked: false,
                 },
-                success: function (res) {
+                success: function(res) {
                     console.log('Update unlike:', res)
                     if (res.result.stats.updated == 1) {
                         wx.showToast({
@@ -91,7 +94,7 @@ Page({
                     card: card,
                     liked: true,
                 },
-                success: function (res) {                    
+                success: function(res) {
                     console.log('Update like:', res)
                     if (res.result.stats.updated == 1) {
                         wx.showToast({
@@ -214,9 +217,9 @@ Page({
         wx.cloud.callFunction({
             name: 'queryCardInfo',
             data: {
-                
+
             },
-            success: function (res) {
+            success: function(res) {
                 console.log('Query CardInfos:', res)
                 if (res.result.data.length > 0) {
                     that.setData({
@@ -224,15 +227,15 @@ Page({
                         loadingTextHidden: true,
                     })
                     that.prepareDatas()
-                    that.reloadData()   
+                    that.reloadData()
                 } else {
                     that.setData({
                         loadingText: '没有卡片！',
                         loadingTextHidden: false,
                     })
-                }                             
+                }
             },
-            fail: function (err) {
+            fail: function(err) {
                 console.log('Query CardInfos:', err)
                 that.setData({
                     loadingText: '加载失败',
@@ -256,7 +259,6 @@ Page({
         for (var i = 0; i < 3; i++) {
             let card = this.data.allCardInfos.shift();
             cardInfoList.push(card);
-            this.data.allCardInfos.push(card)
             count--
             if (count == 0) break;
         }
@@ -266,7 +268,7 @@ Page({
     onLoad: function(option) {
         let that = this
         wx.getSystemInfo({
-            success: function (res) {
+            success: function(res) {
                 // success
                 that.setData({
                     screenHeight: res.windowHeight,
@@ -276,24 +278,20 @@ Page({
             }
         })
 
-        if (option.cardData)
-        {
+        if (option.cardData) {
             var array = JSON.parse(option.cardData)
             let length = array.length
-            if (length > 0)
-            {
+            if (length > 0) {
                 let before = array.slice(0, option.index);
                 let after = array.slice(option.index, length);
                 this.setData({
                     allCardInfos: after.concat(before)
                 })
-            this.prepareDatas()
+                this.prepareDatas()
                 this.reloadData()
 
             }
-        }
-        else
-        {
+        } else {
             this.queryCardInfos()
         }
     },
@@ -384,7 +382,7 @@ Page({
         return this.currentCardStartH();
     },
 
-    touchStart: function (event) {
+    touchStart: function(event) {
         var touch = event.touches[0]
         this.setData({
             startPosition: {
@@ -394,7 +392,7 @@ Page({
         })
     },
 
-    touchMove: function (event) {
+    touchMove: function(event) {
         let pageX = event.touches[0].pageX
         let pageY = event.touches[0].pageY
         this.setData({
@@ -405,7 +403,7 @@ Page({
 
 
     // 第一张移动结束处理动画
-    touchEnd: function (event) {
+    touchEnd: function(event) {
         let x = this.data.currentCardL - this.currentCardStartL()
         let y = this.data.currentCardT - this.currentCardStartT()
         if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
@@ -415,7 +413,7 @@ Page({
         }
     },
 
-    animateSwipeOutCurrentCard: function (offsetX, offsetY) {
+    animateSwipeOutCurrentCard: function(offsetX, offsetY) {
         var currentCardAnimation = wx.createAnimation({
             duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
@@ -426,13 +424,13 @@ Page({
             duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
         })
-        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).step()
+        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).opacity(1).step()
 
         var lastCardAnimation = wx.createAnimation({
             duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
         })
-        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).step()
+        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).opacity(0.2).step()
 
         this.setData({
             currentCardAnimation: currentCardAnimation.export(),
@@ -442,9 +440,10 @@ Page({
 
         // 动画之后，改变数据源
         var that = this;
-        setTimeout(function () {
-            var cardInfoList = that.data.cardInfoList;
-            cardInfoList.shift();
+        setTimeout(function() {
+            var cardInfoList = that.data.cardInfoList
+            let removedCardInfo = cardInfoList.shift()
+            that.data.allCardInfos.push(removedCardInfo)
             if (that.data.allCardInfos.length > 0) {
                 var lastCardInfo = that.data.allCardInfos.shift();
                 cardInfoList.push(lastCardInfo)
@@ -472,7 +471,7 @@ Page({
         }, SwipeOutAnimationDuration);
     },
 
-    animateCurrentCardBackToCenter: function (offsetX, offsetY) {
+    animateCurrentCardBackToCenter: function(offsetX, offsetY) {
         var animation = wx.createAnimation({
             duration: BackToCenterAnimationDuration,
             timingFunction: 'ease',
@@ -485,7 +484,7 @@ Page({
             currentCardT: this.currentCardStartT(),
         });
         var that = this
-        setTimeout(function () {
+        setTimeout(function() {
             that.setData({
                 currentCardAnimation: {},
             })

@@ -56,10 +56,20 @@ page {
 }
 
 .card_text_info {
+    position: absolute;
+    /* bottom: 0px; */
+    overflow: hidden;
+}
+
+.card_image_info {
+    position: absolute;
+    top: 0px;
     overflow: hidden;
 }
 
 .info_top {
+    position: absolute;
+    top: 0px;
     display: flex;
     flex-direction: row;
     justify-content: left;
@@ -93,15 +103,18 @@ page {
     font-size: 14px;
     margin-left: 15px;
     margin-right: 15px;
-    margin-top: 33px;
+    /* margin-top: 33px; */
     color: #fff;
     line-height: 25px;
     font-weight: 400;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .card_posterAvatar {
     position: absolute;
-    border-radius: 12px 12px 12px 12px;
+    border-radius: 50%;
     width: 24px;
     height: 24px;
     left: 16px;
@@ -119,106 +132,18 @@ page {
     opacity: 0.8;
 }
 
-.info_light {
-    padding-right: 30rpx;
-}
-
-.info_content {
-    font-size: 9pt;
-    padding-left: 30rpx;
-    padding-top: 12rpx;
-    color: #8e8e8e;
-}
-
-.info_bottom {
-    font-size: 9pt;
-    padding-left: 30rpx;
-    padding-top: 12rpx;
-}
-
-.card_info_other {
-    height: 160rpx;
-    background: ghostwhite;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 6px 8px 50px 10px #ccc;
-}
-
-.operate-area {
-    margin: 0 auto;
-    margin-top: 1030rpx;
-    text-align: center;
-    padding-bottom: 10rpx;
-}
-
-/*.operate-area view{
-  display: inline-block;
-}*/
-
-.operate-area .want {
-    margin: 0 auto;
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    padding: 2px;
-    border: 2px solid #ff7981;
-    text-align: center;
-}
-
-.operate-area .want view {
-    margin-top: 40rpx;
-    color: #ff7981;
-}
-
-.inline_block view {
-    display: inline-block;
-}
-
-.operate-area .noWant {
-    margin: 0 auto;
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    padding: 4px;
-    background-color: #ff7981;
-    text-align: center;
-}
-
-.operate-area .noWant view {
-    margin-top: 40rpx;
-    color: white;
-}
-
-/*蒙版遮住防止下一张进行滑动*/
-
-.card_opacity {
-    height: 160rpx;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    /*box-shadow: 6px 8px 50px 10px #ccc;*/
-}
-
-.card_info_opacity {
-    height: 160rpx;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: #fffff0;
-}
-
-.loading-tip {
-    width: 50%;
-    height: 50%;
-    font-size: 14px;
-    color: #fff;
-    margin: auto;
-    background-color: transparent;
-    text-align: center;
-}
-
 .card_like {
     width: 24px;
     height: 24px;
     position: absolute;
     right: 11px;
     bottom: 14px;
+}
+
+.card_progress {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 3px;
+    background-color: #fff;
 }

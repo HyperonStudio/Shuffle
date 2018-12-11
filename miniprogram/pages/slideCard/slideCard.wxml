@@ -4,11 +4,14 @@
     <view class="card_wrap" disable-scroll="true">
         <view wx:for="{{ cardInfoList }}" wx:key="unique" wx:for-index="index" wx:for-item="item">
             <block wx:if="{{index==0}}">
-                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:3;position:absolute;top:{{currentCardT}}px; left: {{currentCardL}}px; width:{{currentCardW}}px; height:{{currentCardH}}px;"
+                <view class="card_item card1" hidden="{{hidden1}}" style="opacity:{{currentCardA}}; z-index:3;position:absolute;top:{{currentCardT}}px; left: {{currentCardL}}px; width:{{currentCardW}}px; height:{{currentCardH}}px;"
                     animation="{{currentCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
-                        <image class='card_image' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
-                        <view class='card_text_info' style='flex:1'>
+                        <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'>
+                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
+                            <view style='width:{{currentCardW}}px;' class='card_progress'></view>
+                        </view>                        
+                        <view class='card_text_info' style='top:{{currentCardW}}px; width:{{currentCardW}}px; height:{{currentCardH - currentCardW}}px;'>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
@@ -23,11 +26,14 @@
             </block>
 
             <block wx:if="{{index==1}}">
-                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:2;position:absolute;top:{{middleCardT}}px; left: {{middleCardL}}px; width:{{middleCardW}}px; height:{{middleCardH}}px;" animation="{{middleCardAnimation}}">
+                <view class="card_item card1" hidden="{{hidden1}}" style="opacity:{{middleCardA}}; z-index:2;position:absolute;top:{{middleCardT}}px; left: {{middleCardL}}px; width:{{middleCardW}}px; height:{{middleCardH}}px;" animation="{{middleCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
-                        <image class='card_image' src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
-                        <view class='card_text_info'>
-                            <view class="info_top">
+                        <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{middleCardW}}px;'>
+                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{middleCardW}}px; height:{{middleCardW}}px;'></image>
+                            <view style='width:{{middleCardW}}px;' class='card_progress'></view>
+                        </view>                        
+                        <view class='card_text_info' style='top:{{middleCardW}}px; width:{{middleCardW}}px; height:{{middleCardH - middleCardW}}px;'>
+                            <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
                             </view>
@@ -41,11 +47,14 @@
             </block>
 
             <block wx:if="{{index==2}}">
-                <view class="card_item card1" hidden="{{hidden1}}" style=" z-index:1;position:absolute;top:{{lastCardT}}px; left: {{lastCardL}}px; width:{{lastCardW}}px; height:{{lastCardH}}px;" animation="{{lastCardAnimation}}">
+                <view class="card_item card1" hidden="{{hidden1}}" style="opacity:{{lastCardA}}; z-index:1;position:absolute;top:{{lastCardT}}px; left: {{lastCardL}}px; width:{{lastCardW}}px; height:{{lastCardH}}px;" animation="{{lastCardAnimation}}">
                     <view class="card_info" style='background-color:{{item.magicColor}}'>
-                        <image class='card_image' src="{{item.imageUrl}}" style='width:{{currentCardW}}px; height:{{currentCardW}}px;'></image>
-                        <view class='card_text_info'>
-                            <view class="info_top">
+                        <view class='card_image_info' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style='width:{{currentCardW}}px; height:{{lastCardW}}px;'>
+                            <image class='card_image' src="{{item.imageUrl}}" style='width:{{lastCardW}}px; height:{{lastCardW}}px;'></image>
+                            <view style='width:{{lastCardW}}px;' class='card_progress'></view>
+                        </view>                        
+                        <view class='card_text_info' style='top:{{lastCardW}}px; width:{{lastCardW}}px; height:{{lastCardH - lastCardW}}px;'>
+                            <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
                             </view>
