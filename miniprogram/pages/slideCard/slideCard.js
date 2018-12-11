@@ -249,9 +249,9 @@ Page({
                     curPlayMid: mid
                 })
                 backgroundAudioManager.play()
-                setTimeout(function() {
-                    backgroundAudioManager.seek(backgroundAudioManager.duration - 10)
-                }, 1000)
+                // setTimeout(function() {
+                //     backgroundAudioManager.seek(backgroundAudioManager.duration - 10)
+                // }, 1000)
                 
             });
         }
@@ -375,6 +375,7 @@ Page({
             lastCardW: this.lastCardStartW(),
             lastCardH: this.lastCardStartH(),
             lastCardAnimation: lastCardAnimation.export(),
+            songProgress: 0,
         })
     },
 

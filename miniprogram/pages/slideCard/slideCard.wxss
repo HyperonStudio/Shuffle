@@ -171,9 +171,7 @@ page {
     height: 50%; 
     font-size: 14px; 
     color: #fff; 
-    margin: auto; 
+    margin-top: 200rpx; 
     background-color: transparent; 
     text-align: center;
-    top: 50%;
-    transform: translateY(-50%); 
 } 
