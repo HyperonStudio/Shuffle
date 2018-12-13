@@ -313,6 +313,9 @@ Page({
 
     onLoad: function(option) {
         let that = this
+        wx.showShareMenu({
+            withShareTicket: true
+        })
         wx.getSystemInfo({
             success: function(res) {
                 // success
@@ -557,5 +560,13 @@ Page({
                 currentCardAnimation: {},
             })
         }, BackToCenterAnimationDuration);
+    },
+
+    onShareAppMessage: function () {
+        return {
+            title: '很喜欢这首歌，分享给你听',
+            desc: '这个小程序很不错哦',
+            path: '/pages/slideCard/slideCard?id=123'
+        }
     },
 })
