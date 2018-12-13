@@ -1,9 +1,8 @@
 {
-    "window": {
-        "backgroundColor": "#000000",
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#000000",
-        "navigationBarTitleText": "Loocup",
-        "navigationBarTextStyle": "white"
-    }
+    "backgroundColor": "#000000",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "Loocup",
+    "navigationBarTextStyle": "white",
+    "disableScroll": true
 }

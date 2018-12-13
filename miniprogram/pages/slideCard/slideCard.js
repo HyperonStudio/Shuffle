@@ -345,6 +345,7 @@ Page({
         }
     },
 
+
     resetCardPositions: function(cardInfoList) {
         var currentCardAnimation = wx.createAnimation({
             duration: 0,

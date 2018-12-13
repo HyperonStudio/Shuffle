@@ -1,9 +1,7 @@
 {
-    "window": {
-        "backgroundColor": "#000000",
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#000000",
-        "navigationBarTitleText": "添加歌曲",
-        "navigationBarTextStyle": "white"
-    }
+    "backgroundColor": "#000000",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "添加歌曲",
+    "navigationBarTextStyle": "white"
 }
