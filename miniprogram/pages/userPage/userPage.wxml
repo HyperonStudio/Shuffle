@@ -25,7 +25,7 @@
     </view>
 
     <view class='card-container'>
-        <image class='card' wx:for="{{cardInfos}}" id='{{index}}' src="{{item.imageUrl}}" bindtap='navigateTo'> </image>
+        <image class='card' mode='aspectFill' wx:for="{{cardInfos}}" id='{{index}}' src="{{item.imageUrl}}" bindtap='navigateTo'> </image>
     </view>
 
 </view>

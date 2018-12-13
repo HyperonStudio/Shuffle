@@ -93,7 +93,7 @@ page {
 }
 
 .card-container{
-    margin-top: 48rpx;
+  margin-top: 48rpx;
   display: grid;
   width: 84%;
   align-self: center;
@@ -110,6 +110,10 @@ page {
     width: 290rpx;
     height: 290rpx;
     border-radius: 4%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover; 
 }
 
 .stars{
