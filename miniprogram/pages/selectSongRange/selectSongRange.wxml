@@ -1,0 +1,22 @@
+<!--miniprogram/pages/selectSongRange/selectSongRange.wxml-->
+<view class="pageContainer">
+    <view class="card_info" style='background-color:{{magicColor}}; top:{{cardT}}px; left:{{cardL}}px; width:{{cardW}}px; height:{{cardH}}px;'>
+        <view class='card_image_info'style='width:{{cardW}}px; height:{{cardW}}px;'>
+            <image class='card_image' src="{{song.image}}" mode='aspectFill' style='width:{{cardW}}px; height:{{cardW}}px;'></image>
+            <view style='width:{{songProgress * cardW}}px;' class='card_progress'></view>
+            <image class='card_toggle' hidden='{{loadingSongUrl}}' src='{{songToggleButtonImageName}}' bindtap='songToggleButtonDidClick'></image>
+        </view>
+        <view class='card_text_info' style='top:{{cardW}}px; width:{{cardW}}px; height:{{cardH - cardW}}px;'>
+            <view class="card_songName" style='color:{{textColor}}'>{{song.name}}</view>
+            <view class="card_singerName" style='color:{{textColor}}'>{{song.singer}}</view>
+            <view class="card_desc" style='color:{{textColor}}'>{{selectText}}</view>
+        </view>
+    </view>
+
+    <view class='loadingUrlText' hidden='{{!loadingSongUrl}}' style="position:absolute; top:{{rangeSelectorT}}px; left: {{rangeSelectorL}}px; width:{{rangeSelectorW}}px; height:{{rangeSelectorH}}px;">加载中...</view>
+
+    <view class="rangeSelector" hidden='{{loadingSongUrl}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style="position:absolute; top:{{rangeSelectorT}}px; left: {{rangeSelectorL}}px; width:{{rangeSelectorW}}px; height:{{rangeSelectorH}}px;">
+    </view>
+    <view class='rangeSelectorThumb' hidden='{{loadingSongUrl}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style="position:absolute; top:{{rangeSelectorT - thumbH - 10}}px; left: {{lThumbCenterX - thumbW / 2}}px; width:{{thumbW}}px; height:{{thumbH}}px;">{{lThumbText}}</view>
+    <view class='rangeSelectorThumb' hidden='{{loadingSongUrl}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd" style="position:absolute; top:{{rangeSelectorT + rangeSelectorH + 10}}px; left: {{rThumbCenterX - thumbW / 2}}px; width:{{thumbW}}px; height:{{thumbH}}px;">{{rThumbText}}</view>
+</view>

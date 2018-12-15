@@ -3,7 +3,8 @@
         "pages/slideCard/slideCard",
         "pages/postCard/postCard",
         "pages/userPage/userPage",
-        "pages/selectSong/selectSong"
+        "pages/selectSong/selectSong",
+        "pages/selectSongRange/selectSongRange"
     ],
     "requiredBackgroundModes": ["audio"],
     "window": {

@@ -56,7 +56,7 @@ Page({
         })
     },
 
-    changeSong: function (song) {
+    changeSong: function (song, startTime, endTime) {
         this.setData({
             song: song,
             songName: song.name + ' · ' + song.singer,

@@ -1,6 +1,7 @@
 // miniprogram/pages/selectSong/selectSong.js
 
 const util = require('../../util.js');
+var app = getApp();
 
 Page({
     
@@ -57,11 +58,10 @@ Page({
     songDidSelect: function(e) {        
         let song = e.currentTarget.dataset.song
         console.log('选择: ', song)
-        var pages = getCurrentPages();
-        if (pages.length > 1) {
-            var prePage = pages[pages.length - 2];
-            prePage.changeSong(song)
-        }
+        app.globalData.selectedSong = song
+        wx.navigateTo({
+            url: '../selectSongRange/selectSongRange',
+        })
     },
 
     search: function() {
