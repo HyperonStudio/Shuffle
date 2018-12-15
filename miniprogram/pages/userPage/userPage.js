@@ -21,30 +21,10 @@ Page({
     },
     
     onLoad: function (option) {
-        // 查看是否授权
-        // if (!option.user)
-        // {
-        //     wx.getSetting({
-        //         success(res) {
-        //             if (res.authSetting['scope.userInfo']) {
-        //                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-        //                 wx.getUserInfo({
-        //                     success: function (res) {
-                                
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //     })
-        // }
-        // else
-        // {
-            
-        // }
-
+        //查看是否授权
         let openId = option.openId
         let user = JSON.parse(option.user)
-
+        console.log("openid"+openId)
         this.setData({
             hostId: openId,
             user: user,
