@@ -9,21 +9,21 @@ page {
     justify-content: flex-start;
 }
 
-.operation_layout {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    height: 42px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-
 .card_wrap {
     background: #f2f2f6;
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+.operation_layout {
+    width: 100%;
+    height: 84rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    position: absolute;
+    bottom: 0px;
 }
 
 .card_wrap .card_item {
@@ -109,24 +109,32 @@ page {
     opacity: 0.8;
 }
 
-.card_desc {
-    font-size: 14px;
-    margin-left: 15px;
-    margin-right: 15px;
-    /* margin-top: 33px; */
-    color: #fff;
-    line-height: 25px;
-    font-weight: 400;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+.text_touch_area {
+    left: 0rpx;
+    right: 0rpx;
+    position: absolute;
+    top: 0rpx;
+    bottom: 80rpx;
+}
+
+.card_desc { 
+    font-size: 14px; 
+    margin-left: 15px; 
+    margin-right: 15px; 
+    /* margin-top: 33px; */ 
+    color: #fff; 
+    line-height: 25px; 
+    font-weight: 400; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    position: relative; 
 }
 
 .card_posterAvatar {
     position: absolute;
-    border-radius: 24rpx;
-    width: 48rpx;
-    height: 48rpx;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
     left: 16px;
     bottom: 14px;
 }
@@ -159,19 +167,19 @@ page {
 }
 
 .card_toggle {
+    width: 24px;
+    height: 24px;
     position: absolute;
-    bottom: 14rpx;
-    right: 10rpx;
-    width: 50rpx;
-    height: 50rpx;
+    right: 11px;
+    bottom: 14px;
 }
 
-.loading-tip { 
-    width: 50%; 
-    height: 50%; 
-    font-size: 14px; 
-    color: #fff; 
-    margin-top: 200rpx; 
-    background-color: transparent; 
-    text-align: center;
+.loading-tip {  
+    width: 50%;  
+    height: 50%;  
+    font-size: 14px;  
+    color: #fff;  
+    margin-top: 200rpx;  
+    background-color: transparent;  
+    text-align: center; 
 } 

@@ -1,10 +1,6 @@
 <!--index.wxml-->
 <view class="container">
     <view class='loading-tip' hidden='{{loadingTextHidden}}'>{{loadingText}}</view>
-    <view class='operation_layout'>
-        <image style='width:46rpx;height:46rpx' src='../../images/my_card.png' bindtap='myCardButtonDidClick'></image>
-        <image style='width:46rpx;height:46rpx' src='../../images/post.png' bindtap='postButtonDidClick'></image>
-    </view>
     <view class="card_wrap" disable-scroll="true">
         <view wx:for="{{ cardInfoList }}" wx:key="unique" wx:for-index="index" wx:for-item="item">
             <block wx:if="{{index==0}}">
@@ -17,6 +13,7 @@
                             <image class='card_toggle' src='{{songToggleButtonImageName}}' bindtap='songToggleButtonDidClick'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{currentCardW}}px; width:{{currentCardW}}px; height:{{currentCardH - currentCardW}}px;'>
+                            <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
@@ -39,6 +36,7 @@
                             <image class='card_toggle' src='../../images/card_info_play.png'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{middleCardW}}px; width:{{middleCardW}}px; height:{{middleCardH - middleCardW}}px;'>
+                            <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
@@ -61,6 +59,7 @@
                             <image class='card_toggle' src='../../images/card_info_play.png'></image>
                         </view>                        
                         <view class='card_text_info' style='top:{{lastCardW}}px; width:{{lastCardW}}px; height:{{lastCardH - lastCardW}}px;'>
+                            <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
                                 <view class="card_songName">{{item.song.name}}</view>
                                 <view class="card_singerName">{{item.song.singer}}</view>
@@ -74,5 +73,9 @@
                 </view>
             </block>
         </view>
+    </view>
+    <view class='operation_layout'>
+        <image style='width:46rpx;height:46rpx' src='../../images/my_card.png' bindtap='myCardButtonDidClick'></image>
+        <image style='width:46rpx;height:46rpx' src='../../images/post.png' bindtap='postButtonDidClick'></image>
     </view>
 </view>
