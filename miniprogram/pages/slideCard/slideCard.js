@@ -615,9 +615,9 @@ Page({
 
     onShareAppMessage: function () {
         return {
-            title: '很喜欢这首歌，分享给你听',
+            title: this.data.cardInfoList[0].desc,
             desc: '这个小程序很不错哦',
-            path: '/pages/slideCard/slideCard?id=123'
+            path: '/pages/slideCard/slideCard?id=' + this.data.cardInfoList[0]._id
         }
     },
 
