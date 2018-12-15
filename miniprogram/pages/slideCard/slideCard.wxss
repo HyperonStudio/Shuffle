@@ -183,3 +183,23 @@ page {
     background-color: transparent;  
     text-align: center; 
 } 
+
+.sharegroup{
+    float: right;
+    width: 46rpx;
+    height: 46rpx;
+}
+
+.sharegroup-img{
+    width: 46rpx;
+    height: 46rpx;
+    position: fixed;
+}
+
+.sharegroup-btn{
+    width: 46rpx;
+    height: 46rpx;
+    opacity: 0;
+    border: 0 solid transparent;
+    background: transparent;
+}

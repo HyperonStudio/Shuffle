@@ -75,7 +75,13 @@
         </view>
     </view>
     <view class='operation_layout'>
-        <image style='width:46rpx;height:46rpx' src='../../images/my_card.png' bindtap='myCardButtonDidClick'></image>
-        <image style='width:46rpx;height:46rpx' src='../../images/post.png' bindtap='postButtonDidClick'></image>
+    <view class='sharegroup'>
+       <image class='sharegroup-img' src='../../images/my_card.png' ></image>
+        <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='myCardButtonDidClick'></button>
+    </view>
+    <view class='sharegroup'>
+        <image class='sharegroup-img' src='../../images/post.png' ></image>
+        <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='postButtonDidClick'></button>
+        </view>
     </view>
 </view>

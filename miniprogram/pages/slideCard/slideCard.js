@@ -16,6 +16,7 @@ let CardScaleRate = 0.95;
 
 Page({
     data: {
+        canIUse: wx.canIUse('button.open-type.getUserInfo'),
         currentCardL: 0,
         currentCardT: 0,
         currentCardW: 0,
@@ -69,15 +70,22 @@ Page({
     },
 
     myCardButtonDidClick: function(e) {
-        wx.navigateTo({
-            url: '../userPage/userPage?user=' + JSON.stringify(app.userInfo) + '&openId=' + app.globalData.openid,
-        })
+        if (app.userInfo != null)
+        {
+            wx.navigateTo({
+                url: '../userPage/userPage?user=' + JSON.stringify(app.userInfo) + '&openId=' + app.globalData.openid,
+            })
+        }
+        
     },
 
     postButtonDidClick: function(e) {
-        wx.navigateTo({
-            url: '../postCard/postCard',
-        })
+        if (app.userInfo != null)
+        {
+            wx.navigateTo({
+                url: '../postCard/postCard',
+            })
+        }
     },
 
     likeDidTap: function(e) {
@@ -323,6 +331,20 @@ Page({
 
     onLoad: function(option) {
         let that = this
+        // 查看是否授权
+        wx.getSetting({
+            success(res) {
+                if (res.authSetting['scope.userInfo']) {
+                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                    wx.getUserInfo({
+                        success(res) {
+                            app.userInfo = res.userInfo
+                        }
+                    })
+                }
+            }
+        })
+
         wx.showShareMenu({
             withShareTicket: true
         })
@@ -356,6 +378,10 @@ Page({
         }
     },
 
+    bindGetUserInfo(e) {
+        console.log(e.detail.userInfo)
+        app.userInfo = e.detail.userInfo
+    },
     onShow: function(e){
         if (this.data.newPostCardInfo != null)
         {

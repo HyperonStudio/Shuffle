@@ -4,6 +4,7 @@
     <image class="userinfo-avatar" src="{{user.avatarUrl}}">
         <!-- <open-data  type="userAvatarUrl"></open-data> -->
     </image>
+    
     <view class='infoarea'>
         <view class='user-name'>{{user.nickName}}</view>
         <view class='collect'>
