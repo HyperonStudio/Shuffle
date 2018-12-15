@@ -23,9 +23,13 @@
         <label class='switchLabel' style='font-weight:{{firstfontWeight}}' data-reply-type='0' bindtap='onChangeTab'>发布</label>
         <label class='switchLabel' style='font-weight:{{secondfontWeight}}' data-reply-type='1' bindtap='onChangeTab'>收藏</label>
     </view>
-
-    <view class='card-container'>
-        <image class='card' mode='aspectFill' wx:for="{{cardInfos}}" id='{{index}}' src="{{item.imageUrl}}" bindtap='navigateTo'> </image>
+    <view class='collectionContainer' >
+        <scroll-view scroll-y="true">
+        <view class='cardContainer'>
+            <block wx:for="{{cardInfos}}">
+            <image class='card' mode='aspectFill'  id='{{index}}' src="{{item.imageUrl}}" bindtap='navigateTo'> </image>
+            </block>
+        </view>
+        </scroll-view>
     </view>
-
 </view>
