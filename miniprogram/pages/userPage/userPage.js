@@ -136,7 +136,7 @@ Page({
     },
 
     navigateTo: function(e) {
-        let toUrl = '../slideCard/slideCard?cardData=' + JSON.stringify(this.data.tabIndex == 0 ? this.data.publishedCards : this.data.collectedCards) + '&index=' + e.target.id
+        let toUrl = '../slideCard/slideCard?hostid=' + this.data.hostId +'&type=' + this.data.tabIndex + '&index=' + e.target.id
 
         wx.navigateTo({
             url: toUrl

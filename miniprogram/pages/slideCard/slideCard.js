@@ -359,23 +359,61 @@ Page({
             }
         })
 
-        if (option.cardData) {
-            var array = JSON.parse(option.cardData)
-            let length = array.length
-            if (length > 0) {
-                let before = array.slice(0, option.index);
-                let after = array.slice(option.index, length);
-                this.setData({
-                    allCardInfos: after.concat(before),
-                    loadingTextHidden:true
-                })
-                this.supplementAllCardInfos()
-                this.reloadData()
-
-            }
+        if (option.hostid) {
+            this.handleParam(option)
         } else {
             this.queryCardInfos()
         }
+    },
+
+    handleParam:function(option)
+    {
+        console.log(option)
+        var name = 'queryPublishedCard'
+        if (option.type == 1) {
+            name = 'queryCollectedCard'
+        }
+        let that = this
+        wx.cloud.callFunction({
+            name: name,
+            data: {
+                openid: option.hostid,
+            },
+            success: function (res) {
+                var filterdList = new Array();
+                var resultList = res.result.data;
+                if (option.type == 1) {
+                    var numbecollect = 0;
+                    for (var i = 0; i < resultList.length; i++) {
+                        var cardInfo = resultList[i]
+                        for (var j = 0; j < cardInfo.likedUserIDs.length; j++) {
+                            var userid = cardInfo.likedUserIDs[j]
+                            if (userid == option.hostid) {
+                                filterdList.push(cardInfo);
+                                continue
+                            }
+                        }
+                    }
+                }
+                else {
+                    filterdList = res.result.data
+                }
+
+                let length = filterdList.length
+                if (length > 0) {
+                    let before = filterdList.slice(0, option.index);
+                    let after = filterdList.slice(option.index, length);
+                    that.setData({
+                        allCardInfos: after.concat(before),
+                        loadingTextHidden: true
+                    })
+                    that.supplementAllCardInfos()
+                    that.reloadData()
+                }
+            },
+            fail: console.error
+        })
+
     },
 
     bindGetUserInfo(e) {
