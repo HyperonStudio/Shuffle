@@ -1,6 +1,5 @@
 {
     "pages": [
-        "pages/index/index",
         "pages/slideCard/slideCard",
         "pages/postCard/postCard",
         "pages/userPage/userPage",
