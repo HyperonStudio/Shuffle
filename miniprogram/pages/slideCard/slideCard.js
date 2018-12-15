@@ -344,7 +344,8 @@ Page({
                 let before = array.slice(0, option.index);
                 let after = array.slice(option.index, length);
                 this.setData({
-                    allCardInfos: after.concat(before)
+                    allCardInfos: after.concat(before),
+                    loadingTextHidden:true
                 })
                 this.supplementAllCardInfos()
                 this.reloadData()
@@ -366,10 +367,34 @@ Page({
             this.setData({
                 newPostCardInfo: null
             })
-
+        }
+        else
+        {
+            let backgroundAudioManager = wx.getBackgroundAudioManager();
+            if (this.data.playState != 'playing') {
+                // 播放
+                backgroundAudioManager.play();
+            }
         }
     },
 
+    onHide: function()
+    {
+        let backgroundAudioManager = wx.getBackgroundAudioManager();
+        if (this.data.playState == 'playing') {
+            // 暂停
+            backgroundAudioManager.pause();
+        }
+    },
+
+    onUnload: function()
+    {
+        let backgroundAudioManager = wx.getBackgroundAudioManager();
+        if (this.data.playState == 'playing') {
+            // 暂停
+            backgroundAudioManager.stop();
+        }
+    },
 
     resetCardPositions: function(cardInfoList) {
         var currentCardAnimation = wx.createAnimation({
