@@ -50,6 +50,7 @@ Page({
         },
 
         allCardInfos: [],
+        newPostCardInfo:null,
         loadingText: '加载中...',
         loadingTextHidden: false,
     },
@@ -345,6 +346,21 @@ Page({
         }
     },
 
+    onShow: function(e){
+        if (this.data.newPostCardInfo != null)
+        {
+            this.data.newPostCardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
+            this.data.cardInfoList.splice(0, 0, this.data.newPostCardInfo)
+            this.data.allCardInfos.splice(0, 0, this.data.cardInfoList[this.data.cardInfoList.length-1])
+            this.data.cardInfoList.pop()
+            this.resetCardPositions(this.data.cardInfoList)
+            this.setData({
+                newPostCardInfo: null
+            })
+
+        }
+    },
+
 
     resetCardPositions: function(cardInfoList) {
         var currentCardAnimation = wx.createAnimation({
@@ -570,4 +586,5 @@ Page({
             path: '/pages/slideCard/slideCard?id=123'
         }
     },
+
 })

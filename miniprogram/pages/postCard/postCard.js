@@ -182,9 +182,24 @@ Page({
                     duration: 1000,
                 })
                 console.log('[CardInfo] [新增记录] 成功，记录 _id: ', res._id)
+                let that = this
                 setTimeout(function () {
+                    let pages = getCurrentPages();//当前页面
+                    let prevPage = pages[pages.length - 2];//上一页面
+                    var cardInfo = {}
+                    cardInfo.openid = app.globalData.openid
+                    cardInfo.poster = app.userInfo
+                    cardInfo.imageUrl = that.data.uploadedImageUrl
+                    cardInfo.magicColor = that.data.magicColor
+                    cardInfo.desc = that.data.desc
+                    cardInfo.time = currentDate.getTime()
+                    cardInfo.likedUserIDs = []
+                    cardInfo.song = song
+                    prevPage.setData({//直接给上移页面赋值
+                        newPostCardInfo:cardInfo
+                    });
                     wx.navigateBack({
-
+                        delta:1
                     })
                 }, 1000);
                 
