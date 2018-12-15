@@ -2,6 +2,7 @@
 //获取应用实例
 
 const util = require('../../util.js');
+const color = require('../../color.js').color;
 
 var app = getApp();
 
@@ -272,7 +273,7 @@ Page({
                         allCardInfos: res.result.data,
                         loadingTextHidden: true,
                     })
-                    that.prepareDatas()
+                    that.supplementAllCardInfos()
                     that.reloadData()
                 } else {
                     that.setData({
@@ -291,11 +292,19 @@ Page({
         })
     },
 
-    prepareDatas: function() {
+    supplementAllCardInfos: function() {
         for (var i = 0; i < this.data.allCardInfos.length; i++) {
             var cardInfo = this.data.allCardInfos[i]
-            cardInfo['likedUrl'] = (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1 ? '../../images/card_info_liked.png' : '../../images/card_info_like.png')
-            cardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
+            this.supplementCardInfo(cardInfo)
+        }
+    },
+
+    supplementCardInfo: function(cardInfo) {
+        cardInfo['likedUrl'] = (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1 ? '../../images/card_info_liked.png' : '../../images/card_info_like.png')
+        cardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
+        cardInfo['textColor'] = (color.isLightFromString(cardInfo.magicColor) ? '#000000' : '#ffffff')
+        if (cardInfo['textColor'].length == 0) {
+            cardInfo['textColor'] = '#ffffff'
         }
     },
 
@@ -337,7 +346,7 @@ Page({
                 this.setData({
                     allCardInfos: after.concat(before)
                 })
-                this.prepareDatas()
+                this.supplementAllCardInfos()
                 this.reloadData()
 
             }
