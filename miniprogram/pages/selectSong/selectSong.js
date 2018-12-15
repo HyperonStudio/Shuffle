@@ -88,18 +88,29 @@ Page({
             success: (res) => {
                 res = res.data || {};
                 if (res.code == 0 && res.data && res.data.song && res.data.song.list && res.data.song.list.length) {
+                    console.log(res.data)
                     let formattedSongList = res.data.song.list.map((song) => {
                         return util.simpleSongInfo(song);
                     });
-                    for (var i = 0; i < formattedSongList.length; i++) {
-                        var image = util.getPic('album', formattedSongList[i].albummid, 150)                        
-                        formattedSongList[i]['image'] = image
+
+                    var filteredList = new Array()
+                    for (var i = 0; i < formattedSongList.length;i++){
+                        if(formattedSongList[i].disableplay == false)
+                        {
+                            filteredList.push(formattedSongList[i])
+                        }
                     }
-                    console.log('搜索成功: ', formattedSongList.length)
+
+
+                    for (var i = 0; i < filteredList.length; i++) {
+                        var image = util.getPic('album', filteredList[i].albummid, 150)                        
+                        filteredList[i]['image'] = image
+                    }
+                    console.log('搜索成功: ', filteredList.length)
                     this.setData({
                         sin: res.data.song.curpage + 1,
                         showloading: res.data.song.totalnum > res.data.song.curpage * 20,
-                        songs: this.data.songs.concat(formattedSongList),
+                        songs: this.data.songs.concat(filteredList),
                         isSearching: false,
                         searchLoading: true,
                         searchLoadingComplete: false,
