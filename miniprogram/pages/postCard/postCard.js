@@ -59,7 +59,7 @@ Page({
     changeSong: function (song) {
         this.setData({
             song: song,
-            songName: song.name,
+            songName: song.name + ' · ' + song.singer,
         })
         wx.navigateBack({
             

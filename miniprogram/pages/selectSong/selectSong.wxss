@@ -15,10 +15,9 @@ page {
 
 .searchHead {
     flex: none;
-    height: 30px;
+    height: 100rpx;
     display: flex;
     flex-direction: row;
-    margin-bottom: 10px;
 }
 
 .searchResult {
@@ -26,24 +25,35 @@ page {
     position: relative;
 }
 
-.searchResult scroll-view{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
+.searchResult scroll-view {
+    position: absolute;
+    bottom: 0;
+    left: 0rpx;
+    right: 0rpx;
+    top: 0;
+}
+
+.input_container {
+    height: 68rpx;
+    /* width: 100%; */
+    background: #ffffff22;
+    top: 32rpx;
+    left: 60rpx;
+    right: 60rpx;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 8rpx;
+    position: absolute;
 }
 
 .input {
-    width: 80%;
-    height: 30px;
-    background: #333;
-    margin-top: 4px;
-    margin-left: 4px;
-    padding-left: 10px;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    padding-left: 20rpx;
     color: #fff;
-    font-size: 13px;
-    border-radius: 4px;
+    font-size: 14px;
 }
 
 .searchButton {
@@ -56,12 +66,32 @@ page {
     border-radius: 4px;
     padding-top: 4px;
     text-align: center;
+    background-color: #0f0;
 }
 
-.songHorizontal {
-    height: 40px;
+.songCell {
+    height: 140rpx;
+    position: relative;
+}
+
+.songCellContainerFirst {
+    position: absolute;
+    top: 40rpx;
+    left: 60rpx;
+    right: 60rpx;
+    height: 100rpx;
     display: flex;
     flex-direction: row;
+    background-color: #ffffff11;
+    border-radius: 8rpx;
+}
+
+.songCellContainer {
+    position: absolute;
+    top: 40rpx;
+    left: 60rpx;
+    right: 60rpx;
+    height: 100rpx;
 }
 
 .songInfo {
@@ -70,28 +100,48 @@ page {
     flex-direction: column;
 }
 
+.songImage {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 8rpx;
+}
+
 .songName {
-    width: 100%;
-    height: 20px;
-    margin-left: 10px;
+    position: absolute;
+    height: 32rpx;
+    left: 130rpx;
+    right: 0rpx;
     color: #fff;
-    font-size: 14px;
+    font-size: 32rpx;
     text-align: left;
     max-lines: 1;
-    padding-top: 4px;
+    top: 13rpx;
+    line-height: 32rpx;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .songSinger {
-    width: 100%;
-    height: 14px;
-    margin-left: 10px;
+    position: absolute;
+    left: 130rpx;
+    right: 0rpx;
+    top: 61rpx;
+    height: 26rpx;
     color: #fff;
-    font-size: 10px;
+    opacity: 0.7;
+    font-size: 26rpx;
     text-align: left;
     max-lines: 1;
+    white-space: nowrap;
+    line-height: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .loading {
+    height: 60rpx;
     padding: 10rpx;
     text-align: center;
     color: #fff;
@@ -99,6 +149,7 @@ page {
 }
 
 .loading.complete:before {
+    height: 60rpx;
     display: none;
     color: #fff;
     font-size: 13px;

@@ -91,6 +91,10 @@ Page({
                     let formattedSongList = res.data.song.list.map((song) => {
                         return util.simpleSongInfo(song);
                     });
+                    for (var i = 0; i < formattedSongList.length; i++) {
+                        var image = util.getPic('album', formattedSongList[i].albummid, 150)                        
+                        formattedSongList[i]['image'] = image
+                    }
                     console.log('搜索成功: ', formattedSongList.length)
                     this.setData({
                         sin: res.data.song.curpage + 1,
@@ -112,6 +116,7 @@ Page({
             fail: function (err) {
                 wx.showToast({
                     title: '搜索失败',
+                    icon: 'none',
                     duration: 1000
                 });
                 this.setData({
