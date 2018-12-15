@@ -5,6 +5,7 @@
         "pages/userPage/userPage",
         "pages/selectSong/selectSong"
     ],
+    "requiredBackgroundModes": ["audio"],
     "window": {
         "backgroundColor": "#000000",
         "backgroundTextStyle": "light",
