@@ -15,12 +15,12 @@
                         <view class='card_text_info' style='top:{{currentCardW}}px; width:{{currentCardW}}px; height:{{currentCardH - currentCardW}}px;'>
                             <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
-                                <view class="card_songName">{{item.song.name}}</view>
-                                <view class="card_singerName">{{item.song.singer}}</view>
+                                <view class="card_songName" style='color:{{item.textColor}}'>{{item.song.name}}</view>
+                                <view class="card_singerName" style='color:{{item.textColor}}'>{{item.song.singer}}</view>
                             </view>
-                            <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
+                            <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
                             <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
+                            <view class='card_posterName' style='color:{{item.textColor}}' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
@@ -38,12 +38,12 @@
                         <view class='card_text_info' style='top:{{middleCardW}}px; width:{{middleCardW}}px; height:{{middleCardH - middleCardW}}px;'>
                             <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
-                                <view class="card_songName">{{item.song.name}}</view>
-                                <view class="card_singerName">{{item.song.singer}}</view>
+                                <view class="card_songName" style='color:{{item.textColor}}'>{{item.song.name}}</view>
+                                <view class="card_singerName" style='color:{{item.textColor}}'>{{item.song.singer}}</view>
                             </view>
-                            <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
+                            <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
                             <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
+                            <view class='card_posterName' style='color:{{item.textColor}}' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
@@ -61,12 +61,12 @@
                         <view class='card_text_info' style='top:{{lastCardW}}px; width:{{lastCardW}}px; height:{{lastCardH - lastCardW}}px;'>
                             <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
                             <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
-                                <view class="card_songName">{{item.song.name}}</view>
-                                <view class="card_singerName">{{item.song.singer}}</view>
+                                <view class="card_songName" style='color:{{item.textColor}}'>{{item.song.name}}</view>
+                                <view class="card_singerName" style='color:{{item.textColor}}'>{{item.song.singer}}</view>
                             </view>
-                            <view class="card_desc" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
+                            <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
                             <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
-                            <view class='card_posterName' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
+                            <view class='card_posterName' style='color:{{item.textColor}}' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
                         </view>
                     </view>
