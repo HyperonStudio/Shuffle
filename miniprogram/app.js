@@ -15,6 +15,18 @@ App({
 
         this.globalData = {}
 
+        wx.cloud.callFunction({
+            name: 'getOpenid',
+            data: {
+
+            },
+            success: function (res) {
+                getApp().globalData.openid = res.result.openid
+                console.log('getOpenID:' + getApp().globalData.openid)
+            },
+            fail: console.error
+        })
+
         wx.getUserInfo({
             success: function (res) {
                 getApp().userInfo = res.userInfo

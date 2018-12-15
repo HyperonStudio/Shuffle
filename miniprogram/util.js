@@ -265,11 +265,11 @@ function request(opt, data) {
                             _request();
                         }
                     } else {
-                        wx.showToast({
-                            title: '请求处理失败，请稍后再试！code：' + res.statusCode + ',' + opt.url,
-                            icon: 'loading',
-                            duration: 10000
-                        });
+                        // wx.showToast({
+                        //     title: '请求处理失败，请稍后再试！code：' + res.statusCode + ',' + opt.url,
+                        //     icon: 'loading',
+                        //     duration: 10000
+                        // });
                         _report();
                         return;
                     }
