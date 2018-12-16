@@ -24,6 +24,7 @@ Page({
         if (this.data.inputValue.length == 0) {
             wx.showToast({
                 title: '请输入歌曲名',
+                icon: 'none',
                 duration: 1000
             });
             return

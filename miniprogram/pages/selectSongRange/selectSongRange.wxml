@@ -42,3 +42,4 @@
         <view class='confirmText'>完成</view> 
     </view>
 </view>
+<canvas canvas-id='img-canvas' hidden='true'></canvas>

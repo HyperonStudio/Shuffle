@@ -55,10 +55,10 @@ const color = {
                 width: width,
                 height: height,
                 success(res) {
-                    console.log(res.width)
-                    console.log(res.height)
-                    console.log(res.data instanceof Uint8ClampedArray)
-                    console.log(res.data.length) // res.width * res.height * 4
+                    // console.log(res.width)
+                    // console.log(res.height)
+                    // console.log(res.data instanceof Uint8ClampedArray)
+                    // console.log(res.data.length) // res.width * res.height * 4
                     u.calculate(res.data, opts);
                 },
                 fail() {

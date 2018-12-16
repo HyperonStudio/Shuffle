@@ -16,6 +16,7 @@ let kMinDuration = 10
 const util = require('../../util.js');
 const color = require('../../color.js').color;
 var app = getApp();
+const canvasId = "img-canvas";
 
 Page({
 
@@ -40,6 +41,7 @@ Page({
             y: -1
         },
         magicColor: '#666666',
+        textColor: '#ffffff',
         cardT: 0,
         cardL: 0,
         cardW: 0,
@@ -173,7 +175,7 @@ Page({
                 console.log('获取歌曲（mid=', mid, '，type=', type, '）播放URL：', url)
                 backgroundAudioManager.title = that.data.song.name || ''
                 backgroundAudioManager.singer = that.data.song.singer || ''
-                backgroundAudioManager.coverImgUrl = that.data.imageUrl
+                backgroundAudioManager.coverImgUrl = that.data.song.image
                 backgroundAudioManager.src = url
                 that.setData({
                     songUrl: url,
@@ -220,6 +222,45 @@ Page({
             // 播放
             // backgroundAudioManager.play();
         }
+    },
+
+    prepareImage: function() {
+        if (this.data.song.image.length == 0) {
+            return
+        }
+
+        let that = this
+        wx.downloadFile({
+            url: this.data.song.image,
+            success(res) {
+                if (res.statusCode === 200) {
+                    
+                    console.log(res.tempFilePath)
+                    color.colors(res.tempFilePath, canvasId, {
+                        success: function (r) {
+                            console.log('转换成功', color.rgbToHex(r.dominant))
+                            that.setData({
+                                magicColor: color.rgbToHex(r.dominant),
+                                textColor: (color.isLightFromString(color.rgbToHex(r.dominant)) ? '#000000' : '#ffffff')
+                            })
+                        },
+                        width: 240,
+                        height: 480
+                    });
+
+                    if (app.globalData.selectNotAlbumImage == false) {
+                        // 如果用户先选择了图片，我们不用换图
+                        app.globalData.selectImageTmpPath = res.tempFilePath
+                        var pages = getCurrentPages();
+                        if (pages.length > 1) {
+                            var prePage = pages[pages.length - 3];
+                            prePage.uploadImage()
+                        } 
+                    }
+
+                }
+            }
+        })
     },
 
     onHide: function () {
@@ -270,6 +311,7 @@ Page({
         })
 
         this.prepareSong()
+        this.prepareImage()
         this.updateText()
     },
 

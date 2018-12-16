@@ -49,7 +49,8 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        app.globalData.selectNotAlbumImage = false
+        app.globalData.selectImageTmpPath = ''
     },
 
     bindKeyInput: function(e) {
@@ -65,7 +66,6 @@ Page({
             startTime: startTime,
             endTime: endTime,
         })
-
         console.log('选择歌曲完毕: ', song, ', 从', startTime, '到', endTime)
     },
 
@@ -82,58 +82,69 @@ Page({
             sizeType: ['compressed'],
             sourceType: ['album', 'camera'],
             success: function(res) {
-                cos.postObject({
-                    Bucket: config.Bucket,
-                    Region: config.Region,
-                    Key: that.getImageKey(),
-                    FilePath: res.tempFilePaths[0],
-                    TaskReady: function(tid) {
-                        taskId = tid
-                    },
-                    onProgress: function(info) {
-                        console.log(JSON.stringify(info));
-                    }
-                }, function(err, data) {
-                    console.log(err || data);
-                    
-                    that.setData({
-                        uploadedImageUrl: data.Location,
-                    })
-                    console.log("uploadedImageUrl", res.tempFilePaths[0])
-                    color.colors(res.tempFilePaths[0], canvasId, {
-                        success: function (res) {
-                            console.log('转换成功', color.rgbToHex(res.dominant))
-                            that.setData({
-                                magicColor: color.rgbToHex(res.dominant),
-                            })
-                        },
-                        width: 240,
-                        height: 480
-                    });
-                    if (err && err.error) {
-                        wx.showModal({
-                            title: '上传失败',
-                            content: '上传失败：' + (err.error.Message || err.error) + '；状态码：' + err.statusCode,
-                            showCancel: false
-                        });
-                    } else if (err) {
-                        wx.showModal({
-                            title: '上传出错',
-                            content: '上传出错：' + err + '；状态码：' + err.statusCode,
-                            showCancel: false
-                        });
-                    } else {
-                        wx.showToast({
-                            title: '上传成功',
-                            icon: 'success',
-                            duration: 1000
-                        });
-                    }
-                });
+                app.globalData.selectNotAlbumImage = true
+                app.globalData.selectImageTmpPath = res.tempFilePaths[0]
+                that.uploadImage()
             }
         })
     },
 
+    uploadImage: function() {
+        let that = this;
+        cos.postObject({
+            Bucket: config.Bucket,
+            Region: config.Region,
+            Key: that.getImageKey(),
+            FilePath: app.globalData.selectImageTmpPath,
+            TaskReady: function (tid) {
+                taskId = tid
+            },
+            onProgress: function (info) {
+                console.log(JSON.stringify(info));
+            }
+        }, function (err, data) {
+            console.log(err || data);
+
+            that.setData({
+                uploadedImageUrl: data.Location,
+            })
+            console.log("uploadedImageUrl", app.globalData.selectImageTmpPath)
+            that.calculateMagicColor()
+            if (err && err.error) {
+                wx.showModal({
+                    title: '上传失败',
+                    content: '上传失败：' + (err.error.Message || err.error) + '；状态码：' + err.statusCode,
+                    showCancel: false
+                });
+            } else if (err) {
+                wx.showModal({
+                    title: '上传出错',
+                    content: '上传出错：' + err + '；状态码：' + err.statusCode,
+                    showCancel: false
+                });
+            } else {
+                wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                    duration: 1000
+                });
+            }
+        });
+    },
+
+    calculateMagicColor: function() {
+        let that = this
+        color.colors(app.globalData.selectImageTmpPath, canvasId, {
+            success: function (res) {
+                console.log('转换成功', color.rgbToHex(res.dominant))
+                that.setData({
+                    magicColor: color.rgbToHex(res.dominant),
+                })
+            },
+            width: 240,
+            height: 480
+        });
+    },
 
     calculateThemeFinished: function (color) {
         console.log('result color', color)
