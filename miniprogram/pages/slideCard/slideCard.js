@@ -629,6 +629,8 @@ Page({
         }
 
         if (Math.abs(x) >= MinSwipeDistance || Math.abs(y) >= MinSwipeDistance) {
+            let backgroundAudioManager = wx.getBackgroundAudioManager();
+            backgroundAudioManager.stop()
             this.animateSwipeOutCurrentCard(x * 3, y * 3)
         } else {
             this.animateCurrentCardBackToCenter(event.currentTarget.offsetLeft, event.currentTarget.offsetTop)
