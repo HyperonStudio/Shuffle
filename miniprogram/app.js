@@ -14,6 +14,7 @@ App({
         }
 
         this.globalData = {}
+        this.historyID = []
 
         wx.cloud.callFunction({
             name: 'getOpenid',
@@ -26,5 +27,24 @@ App({
             },
             fail: console.error
         })
+    },
+
+    onShow: function(){
+        wx.getStorage({
+            key: 'historyID',
+            success: function (res) {
+                getApp().historyID = Array.from(new Set(JSON.parse(res.data)))
+                console.log('读取历史列表',getApp().historyID)
+            },
+        })
+        console.log('进入前台')
+    },
+
+    onHide: function(){
+        wx.setStorage({
+            key: 'historyID',
+            data: JSON.stringify(getApp().historyID),
+        })
+        console.log('进入后台')
     }
 })

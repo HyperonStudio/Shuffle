@@ -54,6 +54,7 @@ Page({
         },
 
         allCardInfos: [],
+        historyCardIDList:[],
         newPostCardInfo:null,
         loadingText: '加载中...',
         loadingTextHidden: false,
@@ -299,10 +300,12 @@ Page({
 
     queryCardInfos: function() {
         let that = this
+        let historyid = getApp().historyID
+        console.log(historyid)
         wx.cloud.callFunction({
             name: 'queryCardInfo',
             data: {
-
+                historyid: historyid
             },
             success: function(res) {
                 console.log('Query CardInfos:', res)
@@ -361,6 +364,7 @@ Page({
 
     onLoad: function(option) {
         let that = this
+
         // 查看是否授权
         wx.getSetting({
             success(res) {
@@ -450,6 +454,7 @@ Page({
         console.log(e.detail.userInfo)
         app.userInfo = e.detail.userInfo
     },
+
     onShow: function(e){
         if (this.data.newPostCardInfo != null)
         {
@@ -660,6 +665,7 @@ Page({
         setTimeout(function() {
             var cardInfoList = that.data.cardInfoList
             let removedCardInfo = cardInfoList.shift()
+            getApp().historyID.push(removedCardInfo._id)
             that.data.allCardInfos.push(removedCardInfo)
             if (that.data.allCardInfos.length > 0) {
                 var lastCardInfo = that.data.allCardInfos.shift();
