@@ -43,8 +43,10 @@ Page({
 
         playState: 'stop',
         curPlayMid: '',
+        curCardInfo: {},
         songProgress: 0,
         songToggleButtonImageName: '../../images/card_info_play.png',
+        songProgressLeadsToJump: false,
 
         startPosition: {
             x: -1,
@@ -237,9 +239,31 @@ Page({
             });
 
             backgroundAudioManager.onTimeUpdate(() => {
-                this.setData({
-                    songProgress: backgroundAudioManager.currentTime / backgroundAudioManager.duration
-                });
+                if (this.data.curCardInfo.startTime != undefined && this.data.curCardInfo.endTime != undefined) {
+                    // 有选音乐片段的情况
+                    let progress = 0
+                    if (this.data.curCardInfo.endTime - this.data.curCardInfo.startTime != 0) {
+                        progress = (backgroundAudioManager.currentTime - this.data.curCardInfo.startTime) / (this.data.curCardInfo.endTime - this.data.curCardInfo.startTime)
+                    }
+                    this.setData({
+                        songProgress: progress,
+                    });
+                    if (this.data.songProgressLeadsToJump && backgroundAudioManager.currentTime >= this.data.curCardInfo.endTime) {
+                        backgroundAudioManager.stop()
+                        this.animateSwipeOutCurrentCard(0, -this.data.screenHeight)
+                        this.setData({
+                            songProgressLeadsToJump: false,
+                        })
+                    }
+                    if (this.data.curCardInfo.startTime != undefined && backgroundAudioManager.currentTime <= this.data.curCardInfo.startTime) {
+                        backgroundAudioManager.seek(that.data.curCardInfo.startTime)
+                    }
+                } else {
+                    // 没有选音乐片段的情况
+                    this.setData({
+                        songProgress: backgroundAudioManager.currentTime / backgroundAudioManager.duration 
+                    }); 
+                }                
             });
 
             backgroundAudioManager.onEnded(() => {
@@ -249,20 +273,26 @@ Page({
             let cardInfo = this.data.cardInfoList[0]
             let mid = cardInfo.song.mid
             let type = cardInfo.song.type
+            let that = this
             util.getSongSrc([mid], [type], (url) => {
                 console.log('获取歌曲（mid=', mid, '，type=', type, '）播放URL：', url)
                 backgroundAudioManager.title = cardInfo.song.name || ''
                 backgroundAudioManager.singer = cardInfo.song.singer || ''
                 backgroundAudioManager.coverImgUrl = cardInfo.imageUrl
                 backgroundAudioManager.src = url
-                this.setData({
+                that.setData({
                     curPlayMid: mid
                 })
                 backgroundAudioManager.play()
+                if (that.data.curCardInfo.startTime != undefined) {
+                    that.setData({
+                        songProgressLeadsToJump: true,
+                    })
+                    backgroundAudioManager.seek(that.data.curCardInfo.startTime)
+                }                
                 // setTimeout(function() {
                 //     backgroundAudioManager.seek(backgroundAudioManager.duration - 10)
-                // }, 1000)
-                
+                // }, 1000)                
             });
         }
     },
@@ -477,6 +507,7 @@ Page({
         lastCardAnimation.scaleX(CardScaleRate * CardScaleRate).scaleY(CardScaleRate * CardScaleRate).step()
 
         this.setData({
+            curCardInfo: (cardInfoList.length > 0 ? cardInfoList[0]: {}),
             cardInfoList: cardInfoList,
             currentCardL: this.currentCardStartL(),
             currentCardT: this.currentCardStartT(),

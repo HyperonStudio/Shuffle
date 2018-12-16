@@ -459,7 +459,8 @@ function simpleSongInfo(song) {
         disableplay: formatted.disableplay || 0,
         disableposter: formatted.disableposter || 0,
         type: formatted.type,
-        albummid: formatted.albummid || (formatted.album && formatted.album.mid) || ''
+        albummid: formatted.albummid || (formatted.album && formatted.album.mid) || '',
+        duration: formatted.interval,
     };
 }
 

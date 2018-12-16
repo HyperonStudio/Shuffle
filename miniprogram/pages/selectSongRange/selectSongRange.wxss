@@ -14,13 +14,37 @@ page {
 }
 
 .rangeSelector {
-    background-color: #00ff00;
+    background-color: transparent;
 }
 
-.rangeSelectorThumb {
-    background-color: #0000ff;
+.rangeSelectorLThumb {
     text-align: center;
-    color: #ffffff;
+    color: #000000;
+    position: absolute;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+    width: 100%;
+    height: 100%;
+    top: 2px;
+}
+
+.rangeSelectorRThumb {
+    text-align: center;
+    color: #000000;
+    position: absolute;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+    width: 100%;
+    height: 100%;
+    top: 5px;
+}
+
+.rangeSelectorBg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .card_info {
@@ -124,4 +148,45 @@ page {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.confirm {
+    width: 80%;
+    height: 80rpx;
+    border-radius: 4rpx;
+    border-width: 4rpx;
+    border-color: #fff;
+    border-style: solid;
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #fff;
+}
+
+.confirmText {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #fff;
+    line-height: 18px;
+    letter-spacing: 2px;
+    text-align: center;
+    text-decoration: none;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+    position: absolute;
+}
+
+.tipText {
+    font-size: 20rpx;
+    font-weight: 400;
+    color: #fff;
+    opacity: 0.5;
+    width: 300rpx;
+    height: 28rpx;
+    text-align: center;
+    text-decoration: none;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
 }

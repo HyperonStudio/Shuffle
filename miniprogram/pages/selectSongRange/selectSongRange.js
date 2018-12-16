@@ -1,6 +1,6 @@
 // miniprogram/pages/selectSongRange/selectSongRange.js
 
-let kSelectorHorizontalMargin = 35;
+let kSelectorHorizontalMargin = 37.5;
 let kTestSong = {
     albummid:"000EZRMz16VmbQ",
     disableplay:0,
@@ -24,6 +24,7 @@ Page({
         rangeSelectorL: 0,
         rangeSelectorW: 0,
         rangeSelectorH: 0,
+        rangeSelectorBgUrl: '../../images/frequency_0.png',
 
         lThumbCenterX: 0,
         rThumbCenterX: 0,
@@ -45,14 +46,14 @@ Page({
         cardH: 0,
         songProgress: 0,
         songToggleButtonImageName: '../../images/card_info_play.png',
-        song: {},
-        songDuration: 0,
+        song: kTestSong,
         songUrl: '',
         selectText: '',
         lThumbText: '',
         rThumbText: '',
         lThumbTime: 0,
-        rThumbTime: 0,
+        rThumbTime: 0,        
+        tipTextOpacity: 0.5,
 
         playState: 'stop',
         loadingSongUrl: true,
@@ -62,8 +63,34 @@ Page({
         this.playOrPause()
     },
 
+    confirmButtonDidClick: function() {
+        var pages = getCurrentPages();
+        if (pages.length > 1) {
+            var prePage = pages[pages.length - 3];
+            prePage.changeSong(app.globalData.selectedSong, this.data.lThumbTime, this.data.rThumbTime)
+            wx.navigateBack({
+                delta: 2
+            })
+        } 
+    },
+
     updateText: function() {
-        let duration = this.data.songDuration
+        let duration = this.data.song.duration
+
+        let intDuration = parseInt(duration)
+        if (intDuration % 3 == 0) {
+            this.setData({
+                rangeSelectorBgUrl: '../../images/frequency_0.png',
+            })
+        } else if (intDuration % 3 == 1) {
+            this.setData({
+                rangeSelectorBgUrl: '../../images/frequency_1.png',
+            })
+        } else {
+            this.setData({
+                rangeSelectorBgUrl: '../../images/frequency_2.png',
+            })
+        }
 
         if (duration == undefined) {
             return
@@ -119,20 +146,16 @@ Page({
             });
 
             backgroundAudioManager.onTimeUpdate(() => {
-                let needUpdateText = false
-                if (this.data.songDuration == 0) {
-                    needUpdateText = true
-                }
                 let progress = 0
                 if (this.data.rThumbTime - this.data.lThumbTime != 0) {
                     progress = (backgroundAudioManager.currentTime - this.data.lThumbTime) / (this.data.rThumbTime - this.data.lThumbTime)
                 }                 
                 this.setData({
-                    songDuration: (this.data.songDuration == 0 ? backgroundAudioManager.duration : this.data.songDuration),
                     songProgress: progress,
                 });
-                if (needUpdateText) {
-                    this.updateText()
+                this.updateText()             
+                if (backgroundAudioManager.currentTime >= this.data.rThumbTime) {
+                    this.seek(this.data.lThumbTime)
                 }
             });
 
@@ -169,14 +192,19 @@ Page({
         if (!backgroundAudioManager.paused) {
             backgroundAudioManager.pause()
         } else {
-            backgroundAudioManager.play()
+            if (backgroundAudioManager.currentTime >= this.data.rThumbTime) {
+                this.seek(this.data.lThumbTime)
+            } else {
+                backgroundAudioManager.play()
+            }            
         }
     },
 
     seek: function(time) {
         let backgroundAudioManager = wx.getBackgroundAudioManager()
-        backgroundAudioManager.seek(time)
         backgroundAudioManager.play()
+        let ret = backgroundAudioManager.seek(time)        
+        // console.log('Seek: ', time, ', 结果: ', ret)
     },
 
     pause: function() {
@@ -199,10 +227,17 @@ Page({
         backgroundAudioManager.pause();
     },
 
+    onUnload: function () {
+        let backgroundAudioManager = wx.getBackgroundAudioManager();
+        backgroundAudioManager.stop();
+    },
+
     onLoad: function (options) {
-        this.setData({
-            song: app.globalData.selectedSong,
-        })
+        if (app.globalData.selectedSong != undefined) {
+            this.setData({
+                song: app.globalData.selectedSong,
+            })
+        }        
 
         let that = this
         wx.getSystemInfo({
@@ -217,21 +252,25 @@ Page({
         })
 
         this.setData({
-            rangeSelectorT: this.data.screenHeight * 5 / 7,
+            cardT: 15,
+            cardL: this.data.screenWidth * (1 - 0.613) / 2,
+            cardW: this.data.screenWidth * 0.613,
+            cardH: this.data.screenWidth * 0.613 * 1.348,
+        })
+
+        this.setData({
+            rangeSelectorT: this.data.cardT + this.data.cardH + this.data.screenWidth * 0.187,
             rangeSelectorL: kSelectorHorizontalMargin,
             rangeSelectorW: this.data.screenWidth - kSelectorHorizontalMargin * 2,
-            rangeSelectorH: 80,
+            rangeSelectorH: 81,
             lThumbCenterX: this.lThumbStartCenterX(),
             rThumbCenterX: this.rThumbStartCenterX(),
-            thumbW: 40,
-            thumbH: 30,
-            cardT: 40,
-            cardL: this.data.screenWidth * (1 - 0.64) / 2,
-            cardW: this.data.screenWidth * 0.64,
-            cardH: this.data.screenWidth * 0.64 * 1.3,
+            thumbW: 28,
+            thumbH: 20.5,
         })
 
         this.prepareSong()
+        this.updateText()
     },
 
     touchStart: function (event) {
@@ -266,18 +305,20 @@ Page({
     touchMove: function (event) {
         let pageX = event.touches[0].pageX
         let pageY = event.touches[0].pageY
-        let minDis = kMinDuration / this.data.songDuration * (this.data.rangeSelectorW + this.data.rangeSelectorL)
+        let minDis = kMinDuration / this.data.song.duration * (this.data.rangeSelectorW + this.data.rangeSelectorL)
         if (this.data.movingLThumb) {
             let min = this.lThumbStartCenterX()
             let max = this.data.rThumbStartMovingCenterX - minDis
             this.setData({
+                tipTextOpacity: 0,
                 lThumbCenterX: Math.min(Math.max(min, this.data.lThumbStartMovingCenterX + pageX - this.data.startPosition.x), max),
             });
             this.pause()
         } else if (this.data.movingRThumb) {
             let min = this.data.lThumbStartMovingCenterX + minDis
             let max = this.rThumbStartCenterX()
-            this.setData({                
+            this.setData({   
+                tipTextOpacity: 0,            
                 rThumbCenterX: Math.min(Math.max(min, this.data.rThumbStartMovingCenterX + pageX - this.data.startPosition.x), max),
             });
         }       

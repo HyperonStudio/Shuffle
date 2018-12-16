@@ -41,6 +41,8 @@ Page({
         uploadedImageUrl: '../../images/post_default_image.png',
         magicColor:'#909090',
         desc: '',
+        startTime: 0,
+        endTime: 0,
     },
 
     /**
@@ -60,10 +62,11 @@ Page({
         this.setData({
             song: song,
             songName: song.name + ' · ' + song.singer,
+            startTime: startTime,
+            endTime: endTime,
         })
-        wx.navigateBack({
-            
-        })
+
+        console.log('选择歌曲完毕: ', song, ', 从', startTime, '到', endTime)
     },
 
     bindDescInput: function (e) {
@@ -175,6 +178,8 @@ Page({
                 time: currentDate.getTime(),
                 likedUserIDs: [],
                 song: song,
+                startTime: this.data.startTime,
+                endTime: this.data.endTime,
             },
             success: res => {
                 wx.showToast({
