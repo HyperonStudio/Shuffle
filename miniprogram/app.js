@@ -15,6 +15,7 @@ App({
 
         this.globalData = {}
         this.historyID = []
+        this.checkIsIPhoneX()
 
         wx.cloud.callFunction({
             name: 'getOpenid',
@@ -46,5 +47,21 @@ App({
             data: JSON.stringify(getApp().historyID),
         })
         console.log('进入后台')
-    }
+    },
+
+    checkIsIPhoneX: function() {
+        const self = this
+        wx.getSystemInfo({
+            success: function (res) {
+                // 根据 model 进行判断
+                if (res.model.search('iPhone X') != -1) {
+                    self.globalData.isIPX = true
+                }
+                // 或者根据 screenHeight 进行判断
+                // if (res.screenHeight == 812) {
+                //   self.globalData.isIPX = true
+                // }
+            }
+        })
+    },
 })

@@ -38,7 +38,7 @@
 
     <view class='tipText' hidden='{{loadingSongUrl}}' style="opacity:{{tipTextOpacity}}; position:absolute; top:{{rangeSelectorT + rangeSelectorH + 7}}px;">拖动选择音乐片段</view>
 
-    <view class='confirm' bindtap='confirmButtonDidClick' hidden='{{loadingSongUrl}}' style="position:absolute; top:{{screenHeight - 65}}px; left: {{screenWidth * 0.1}}px;">
+    <view class='confirm' bindtap='confirmButtonDidClick' hidden='{{loadingSongUrl}}' style="position:absolute; top:{{screenHeight - (isIPX ? 99: 65)}}px; left: {{screenWidth * 0.1}}px;">
         <view class='confirmText'>完成</view> 
     </view>
 </view>

@@ -74,7 +74,7 @@
             </block>
         </view>
     </view>
-    <view class='operation_layout'>
+    <view class="{{isIPX ? 'operation-layout-ipx' : 'operation-layout'}}">
     <view class='sharegroup'>
        <image class='sharegroup-img' src='../../images/my_card.png' ></image>
         <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='myCardButtonDidClick'></button>

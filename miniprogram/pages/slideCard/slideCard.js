@@ -13,6 +13,8 @@ let BackToCenterAnimationDuration = 300;
 let MinSwipeDistance = 150;
 let CardTopDistance = 10;
 let CardScaleRate = 0.95;
+let CardWHRate = 0.6;
+let ExceptCardVerticalMargin = 100;
 
 Page({
     data: {
@@ -58,6 +60,7 @@ Page({
         newPostCardInfo:null,
         loadingText: '加载中...',
         loadingTextHidden: false,
+        isIPX: app.globalData.isIPX,
     },
 
     posterDidTap: function(e) {
@@ -534,7 +537,7 @@ Page({
     },
 
     currentCardStartL: function() {
-        return this.data.screenWidth * 0.08;
+        return (this.data.screenWidth - this.currentCardStartW()) / 2
     },
 
     currentCardStartT: function() {
@@ -542,11 +545,16 @@ Page({
     },
 
     currentCardStartW: function() {
-        return this.data.screenWidth * 0.84;
+        let expectWidth = this.data.screenWidth * 0.84
+        if (expectWidth > (this.data.screenHeight - ExceptCardVerticalMargin) * CardWHRate) {
+            return (this.data.screenHeight - ExceptCardVerticalMargin) * CardWHRate
+        } else {
+            return expectWidth
+        }
     },
 
     currentCardStartH: function() {
-        return this.data.screenHeight * 0.84;
+        return this.currentCardStartW() / CardWHRate;
     },
 
     middleCardStartL: function() {

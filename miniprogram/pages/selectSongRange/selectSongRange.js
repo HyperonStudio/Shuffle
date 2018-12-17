@@ -59,6 +59,7 @@ Page({
 
         playState: 'stop',
         loadingSongUrl: true,
+        isIPX: app.globalData.isIPX,
     },
 
     songToggleButtonDidClick: function() {
