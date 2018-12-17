@@ -301,10 +301,24 @@ Page({
         }
     },
 
-    queryCardInfos: function() {
+    queryCardInfos: function(topCardID) {
         let that = this
-        let historyid = getApp().historyID
+        var historyid = getApp().historyID
+
+        // 如果是分享进来的，首先需要删掉历史记录中的id，避免用户看过这个卡片导致卡片拉取不到
+        var index = -1
+        for (var i = 0; i < historyid.length; i++) {
+            if (historyid[i] == topCardID) {
+                index = i;
+                break
+            }
+        }
+        if (index != -1)
+        {
+            historyid.splice(index,1)
+        }
         console.log(historyid)
+
         wx.cloud.callFunction({
             name: 'queryCardInfo',
             data: {
@@ -313,8 +327,20 @@ Page({
             success: function(res) {
                 console.log('Query CardInfos:', res)
                 if (res.result.data.length > 0) {
+                    var resultList = res.result.data
+                    var index = -1
+                    for (var i = 0; i < resultList.length; i++) {
+                        if (resultList[i]._id == topCardID){
+                            index = i;
+                            break
+                        }
+                    }
+                    if(index != -1)
+                    {
+                        resultList[0] = resultList.splice(index ,1,resultList[0])[0]
+                    }
                     that.setData({
-                        allCardInfos: res.result.data,
+                        allCardInfos: resultList,
                         loadingTextHidden: true,
                     })
                     that.supplementAllCardInfos()
@@ -365,7 +391,7 @@ Page({
         this.playFirstCardSong()
     },
 
-    onLoad: function(option) {
+    onLoad: function(options) {
         let that = this
 
         // 查看是否授权
@@ -396,10 +422,16 @@ Page({
             }
         })
 
-        if (option.hostid) {
-            this.handleParam(option)
+        var topCardID = null
+        if (options != null && options != undefined) {
+            console.log('处理分享参数', options.id)
+            topCardID = options.id
+        }
+
+        if (options.hostid) {
+            this.handleParam(options)
         } else {
-            this.queryCardInfos()
+            this.queryCardInfos(topCardID)
         }
     },
 

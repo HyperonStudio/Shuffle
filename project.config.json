@@ -29,12 +29,25 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
+					"pathName": "pages/databaseGuide/databaseGuide",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "Share",
+					"pathName": "pages/slideCard/slideCard",
+					"query": "id=XBbwTXffS3SWDTpf",
+					"scene": "1044",
+					"shareInfo": {
+						"groupName": "测试模拟群0",
+						"shareName": "B021YCrmPhAyeghccafacEGhOkIX1aZ9IkEsjBCBlPY@cr4dev",
+						"shareKey": "ntu12z6WBTVq4hANQflT-8a_6ptkv4wRC1I7VAsAsuMgInff195OU4ch0Z5Xcj-PPkwRv3e8gHbYlDOhK0t9wg~~"
+					}
 				}
 			]
 		}
