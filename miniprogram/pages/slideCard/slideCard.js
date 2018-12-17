@@ -461,7 +461,7 @@ Page({
     onShow: function(e){
         if (this.data.newPostCardInfo != null)
         {
-            this.data.newPostCardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
+            this.supplementCardInfo(this.data.newPostCardInfo)
             this.data.cardInfoList.splice(0, 0, this.data.newPostCardInfo)
             this.data.allCardInfos.splice(0, 0, this.data.cardInfoList[this.data.cardInfoList.length-1])
             this.data.cardInfoList.pop()

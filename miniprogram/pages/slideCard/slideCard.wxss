@@ -90,8 +90,9 @@ page {
 .info_top {
     position: absolute;
     top: 0px;
+    height: 36px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: left;
 }
 
@@ -111,8 +112,7 @@ page {
 
 .card_singerName {
     font-size: 14px;
-    margin-left: 6px;
-    margin-top: 14px;
+    margin-left: 12px;
     color: #fff;
     font-weight: light;
     letter-spacing: 2.5px;
