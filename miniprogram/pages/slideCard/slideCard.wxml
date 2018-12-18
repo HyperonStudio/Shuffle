@@ -14,8 +14,8 @@
                         </view>                        
                         <view class='card_text_info' style='top:{{currentCardW}}px; width:{{currentCardW}}px; height:{{currentCardH - currentCardW}}px;'>
                             <view class='text_touch_area' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"></view>
-                            <view class="info_top" catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
-                                <view class="card_songName" style='color:{{item.textColor}}'>{{item.song.name}}</view>
+                            <view class="info_top" style='width:{{currentCardW}}px' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">
+                                <view class="card_songName" style='color:{{item.textColor}};width:{{currentCardW}}px'>{{item.song.name}}</view>
                                 <view class="card_singerName" style='color:{{item.textColor}}'>{{item.song.singer}}</view>
                             </view>
                             <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
