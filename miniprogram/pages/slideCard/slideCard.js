@@ -63,10 +63,17 @@ Page({
         loadingText: '加载中...',
         loadingTextHidden: false,
         isIPX: app.globalData.isIPX,
+        isFromUserPage: false,
+        fromUserOpenId: '',
     },
 
     posterDidTap: function(e) {
         let card = e.currentTarget.dataset.card
+
+        if (this.data.isFromUserPage && card.openid == this.data.fromUserOpenId) {
+            return
+        }
+
         let user = card.poster
         wx.navigateTo({
             url: '../userPage/userPage?user=' + JSON.stringify(user) + '&openId=' + card.openid,
@@ -457,9 +464,12 @@ Page({
         }
     },
 
-    handleParam:function(option)
-    {
+    handleParam:function(option) {
         console.log(option)
+        this.setData({
+            isFromUserPage: true,
+            fromUserOpenId: option.hostid,
+        })
         var name = 'queryPublishedCard'
         if (option.type == 1) {
             name = 'queryCollectedCard'
