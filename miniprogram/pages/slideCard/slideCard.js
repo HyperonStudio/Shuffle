@@ -386,9 +386,15 @@ Page({
     },
 
     supplementCardInfo: function(cardInfo) {
-        cardInfo['likedUrl'] = (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1 ? '../../images/card_info_liked.png' : '../../images/card_info_like.png')
+        let isLight = color.isLightFromString(cardInfo.magicColor)
+
         cardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
-        cardInfo['textColor'] = (color.isLightFromString(cardInfo.magicColor) ? '#000000' : '#ffffff')
+        cardInfo['textColor'] = (isLight ? '#000000' : '#ffffff')
+        if (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1) {
+            cardInfo['likedUrl'] = '../../images/card_info_liked.png'
+        } else {
+            cardInfo['likedUrl'] = (isLight ? '../../images/card_info_like_dark.png' : '../../images/card_info_like_light.png')
+        }
         if (cardInfo['textColor'].length == 0) {
             cardInfo['textColor'] = '#ffffff'
         }

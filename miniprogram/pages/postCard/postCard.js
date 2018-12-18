@@ -43,6 +43,19 @@ Page({
         desc: '',
         startTime: 0,
         endTime: 0,
+        isVCVisible: false,
+    },
+
+    onShow: function() {
+        this.setData({
+            isVCVisible: true
+        })
+    },
+
+    onHide: function () {
+        this.setData({
+            isVCVisible: false
+        })
     },
 
     /**
@@ -111,25 +124,37 @@ Page({
             console.log("uploadedImageUrl", app.globalData.selectImageTmpPath)
             that.calculateMagicColor()
             if (err && err.error) {
-                wx.showModal({
-                    title: '上传失败',
-                    content: '上传失败：' + (err.error.Message || err.error) + '；状态码：' + err.statusCode,
-                    showCancel: false
-                });
+                if (that.data.isVCVisible) {
+                    wx.showModal({
+                        title: '上传失败',
+                        content: '上传失败：' + (err.error.Message || err.error) + '；状态码：' + err.statusCode,
+                        showCancel: false
+                    });
+                }
             } else if (err) {
-                wx.showModal({
-                    title: '上传出错',
-                    content: '上传出错：' + err + '；状态码：' + err.statusCode,
-                    showCancel: false
-                });
+                if (that.data.isVCVisible) {
+                    wx.showModal({
+                        title: '上传出错',
+                        content: '上传出错：' + err + '；状态码：' + err.statusCode,
+                        showCancel: false
+                    });
+                }
             } else {
-                wx.showToast({
-                    title: '上传成功',
-                    icon: 'success',
-                    duration: 1000
-                });
+                if (that.data.isVCVisible) {
+                    wx.showToast({
+                        title: '上传成功',
+                        icon: 'success',
+                        duration: 1000
+                    });
+                }
             }
         });
+    },
+
+    clearImage: function() {
+        this.setData({
+            uploadedImageUrl: '../../images/post_default_image.png',
+        })
     },
 
     calculateMagicColor: function() {

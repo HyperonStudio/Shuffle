@@ -60,6 +60,7 @@ Page({
         playState: 'stop',
         loadingSongUrl: true,
         isIPX: app.globalData.isIPX,
+        isSongSelected: false,
     },
 
     songToggleButtonDidClick: function() {
@@ -67,6 +68,9 @@ Page({
     },
 
     confirmButtonDidClick: function() {
+        this.setData({
+            isSongSelected: true,
+        })
         var pages = getCurrentPages();
         if (pages.length > 1) {
             var prePage = pages[pages.length - 3];
@@ -272,6 +276,13 @@ Page({
     onUnload: function () {
         let backgroundAudioManager = wx.getBackgroundAudioManager();
         backgroundAudioManager.stop();
+        if (this.data.isSongSelected == false) {
+            var pages = getCurrentPages();
+            if (pages.length > 1) {
+                var prePage = pages[pages.length - 3];
+                prePage.clearImage()
+            }
+        }
     },
 
     onLoad: function (options) {
