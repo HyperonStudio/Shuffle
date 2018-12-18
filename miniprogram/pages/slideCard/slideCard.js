@@ -355,6 +355,7 @@ Page({
             success: function(res) {
                 console.log('Query CardInfos:', res)
                 if (res.result.data.length > 0) {
+                    // 如果是分享的卡片，需要重新移动到最顶上
                     var resultList = res.result.data
                     var index = -1
                     for (var i = 0; i < resultList.length; i++) {

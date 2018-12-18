@@ -104,7 +104,7 @@ Page({
 
 
                     for (var i = 0; i < filteredList.length; i++) {
-                        var image = util.getPic('album', filteredList[i].albummid, 150)                        
+                        var image = util.getPic('album', filteredList[i].albummid, 300)                        
                         filteredList[i]['image'] = image
                     }
                     console.log('搜索成功: ', filteredList.length)

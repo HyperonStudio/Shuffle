@@ -40,12 +40,14 @@ Page({
             x: -1,
             y: -1
         },
-        magicColor: '#666666',
-        textColor: '#ffffff',
+        magicColor: '#ffffff',
+        textColor: '#000000',
         cardT: 0,
         cardL: 0,
         cardW: 0,
         cardH: 0,
+        imageW: 0,
+        imageH: 0,
         songProgress: 0,
         songToggleButtonImageName: '../../images/card_info_play.png',
         song: kTestSong,
@@ -241,17 +243,17 @@ Page({
                 if (res.statusCode === 200) {
                     
                     console.log(res.tempFilePath)
-                    color.colors(res.tempFilePath, canvasId, {
-                        success: function (r) {
-                            console.log('转换成功', color.rgbToHex(r.dominant))
-                            that.setData({
-                                magicColor: color.rgbToHex(r.dominant),
-                                textColor: (color.isLightFromString(color.rgbToHex(r.dominant)) ? '#000000' : '#ffffff')
-                            })
-                        },
-                        width: 240,
-                        height: 480
-                    });
+                    // color.colors(res.tempFilePath, canvasId, {
+                    //     success: function (r) {
+                    //         console.log('转换成功', color.rgbToHex(r.dominant))
+                    //         that.setData({
+                    //             magicColor: color.rgbToHex(r.dominant),
+                    //             textColor: (color.isLightFromString(color.rgbToHex(r.dominant)) ? '#000000' : '#ffffff')
+                    //         })
+                    //     },
+                    //     width: 240,
+                    //     height: 480
+                    // });
 
                     if (app.globalData.selectNotAlbumImage == false) {
                         // 如果用户先选择了图片，我们不用换图
@@ -309,6 +311,8 @@ Page({
             cardL: this.data.screenWidth * (1 - 0.613) / 2,
             cardW: this.data.screenWidth * 0.613,
             cardH: this.data.screenWidth * 0.613 * 1.348,
+            imageW: this.data.screenWidth * 0.613 * 0.913,
+            imageH: this.data.screenWidth * 0.613 * 0.913,
         })
 
         this.setData({

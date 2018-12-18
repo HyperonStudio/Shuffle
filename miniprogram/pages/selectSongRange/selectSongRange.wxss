@@ -52,14 +52,16 @@ page {
     display: flex;
     flex-direction: column;
     position: absolute;
+    border-width: thin
 }
 
 .card_image_info {
     position: absolute;
     top: 0px;
     overflow: hidden;
-    border-top-left-radius: 4pt;
-    border-top-right-radius: 4pt;
+    /* border-top-left-radius: 4pt;
+    border-top-right-radius: 4pt; */
+    margin: 20rpx;
 }
 
 .card_image {
@@ -70,14 +72,13 @@ page {
     width: 24px;
     height: 24px;
     position: absolute;
-    right: 11px;
-    bottom: 14px;
+    right: 28px;
+    bottom: 28px;
 }
 
 .card_progress {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
+    position: relative;
+    bottom: 3px;
     height: 3px;
     background-color: #fff;
 }

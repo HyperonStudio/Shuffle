@@ -39,7 +39,7 @@ Page({
         song: null,
         songName: '添加歌曲',
         uploadedImageUrl: '../../images/post_default_image.png',
-        magicColor:'#909090',
+        magicColor:'#000000',
         desc: '',
         startTime: 0,
         endTime: 0,
@@ -122,7 +122,7 @@ Page({
                 uploadedImageUrl: data.Location,
             })
             console.log("uploadedImageUrl", app.globalData.selectImageTmpPath)
-            that.calculateMagicColor()
+            // that.calculateMagicColor()
             if (err && err.error) {
                 if (that.data.isVCVisible) {
                     wx.showModal({
@@ -166,8 +166,8 @@ Page({
                     magicColor: color.rgbToHex(res.dominant),
                 })
             },
-            width: 240,
-            height: 480
+            width: 720,
+            height: 1024
         });
     },
 

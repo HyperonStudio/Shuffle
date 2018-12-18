@@ -2,8 +2,9 @@
 <view class="pageContainer">
     <view class="card_info" style='background-color:{{magicColor}}; top:{{cardT}}px; left:{{cardL}}px; width:{{cardW}}px; height:{{cardH}}px;'>
         <view class='card_image_info'style='width:{{cardW}}px; height:{{cardW}}px;'>
-            <image class='card_image' src="{{song.image}}" mode='aspectFill' style='width:{{cardW}}px; height:{{cardW}}px;'></image>
-            <view style='width:{{songProgress * cardW}}px;' class='card_progress'></view>
+            <image class='card_image' src="{{song.image}}" mode='aspectFill' style='width:{{imageW}}px; height:{{imageW}}px;'>
+            <view style='width:{{songProgress * imageW}}px;' class='card_progress'></view>
+            </image>
             <image class='card_toggle' hidden='{{loadingSongUrl}}' src='{{songToggleButtonImageName}}' bindtap='songToggleButtonDidClick'></image>
         </view>
         <view class='card_text_info' style='top:{{cardW}}px; width:{{cardW}}px; height:{{cardH - cardW}}px;'>
