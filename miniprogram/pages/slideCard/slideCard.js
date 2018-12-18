@@ -46,6 +46,8 @@ Page({
         playState: 'stop',
         curPlayMid: '',
         curCardInfo: {},
+        curPlaySrc: '',
+        curPlayTime: 0,
         songProgress: 0,
         songToggleButtonImageName: '../../images/card_info_play.png',
         songProgressLeadsToJump: false,
@@ -251,6 +253,7 @@ Page({
                     }
                     this.setData({
                         songProgress: progress,
+                        curPlayTime: backgroundAudioManager.currentTime,
                     });
                     if (this.data.songProgressLeadsToJump && backgroundAudioManager.currentTime >= this.data.curCardInfo.endTime) {
                         backgroundAudioManager.stop()
@@ -283,9 +286,11 @@ Page({
                 backgroundAudioManager.title = cardInfo.song.name || ''
                 backgroundAudioManager.singer = cardInfo.song.singer || ''
                 backgroundAudioManager.coverImgUrl = cardInfo.imageUrl
-                backgroundAudioManager.src = url
+                backgroundAudioManager.src = url                
                 that.setData({
-                    curPlayMid: mid
+                    curPlayMid: mid,
+                    curPlaySrc: url,
+                    curPlayTime: 0,
                 })
                 backgroundAudioManager.play()
                 if (that.data.curCardInfo.startTime != undefined) {
@@ -469,13 +474,18 @@ Page({
             this.setData({
                 newPostCardInfo: null
             })
+            this.playFirstCardSong()
         }
         else
         {
             let backgroundAudioManager = wx.getBackgroundAudioManager();
             if (this.data.playState != 'playing') {
                 // 播放
-                backgroundAudioManager.play();
+                if (backgroundAudioManager.src == this.data.curPlaySrc) {
+                    backgroundAudioManager.play()
+                } else {
+                    this.playFirstCardSong()
+                }                
             }
         }
     },
