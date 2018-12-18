@@ -120,6 +120,7 @@ page {
     font-weight: light;
     letter-spacing: 2.5px;
     opacity: 0.8;
+    white-space: nowrap;
 }
 
 .text_touch_area {
