@@ -287,18 +287,29 @@ Page({
                 backgroundAudioManager.singer = cardInfo.song.singer || ''
                 backgroundAudioManager.coverImgUrl = cardInfo.imageUrl
                 backgroundAudioManager.src = url                
+                let curPlayTime = that.data.curPlayTime
                 that.setData({
                     curPlayMid: mid,
                     curPlaySrc: url,
                     curPlayTime: 0,
                 })
                 backgroundAudioManager.play()
-                if (that.data.curCardInfo.startTime != undefined) {
+                if (curPlayTime != 0) {
                     that.setData({
                         songProgressLeadsToJump: true,
                     })
-                    backgroundAudioManager.seek(that.data.curCardInfo.startTime)
-                }                
+                    setTimeout(function() {
+                        backgroundAudioManager.seek(curPlayTime)
+                    }, 100)                    
+                } else {
+                    if (that.data.curCardInfo.startTime != undefined) {
+                        that.setData({
+                            songProgressLeadsToJump: true,
+                        })
+                        backgroundAudioManager.seek(that.data.curCardInfo.startTime)
+                    }
+                }
+
                 // setTimeout(function() {
                 //     backgroundAudioManager.seek(backgroundAudioManager.duration - 10)
                 // }, 1000)                
