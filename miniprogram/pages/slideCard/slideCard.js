@@ -30,17 +30,21 @@ Page({
         middleCardL: 0,
         middleCardW: 0,
         middleCardH: 0,
-        middleCardA: 0.2,
+        middleCardA: 1,
+        middleCardMaskA: 0.5,
         middleCardScaleW: 1,
         middleCardScaleH: 1,
         middleCardAnimation: {},
+        middleCardMaskAnimation: {},
 
         lastCardL: 0,
         lastCardL: 0,
         lastCardW: 0,
         lastCardH: 0,
-        lastCardA: 0.1,
+        lastCardA: 1,
+        lastCardMaskA: 0.7,
         lastCardAnimation: {},
+        lastCardMaskAnimation: {},
         lastCardOpacity: 1,
 
         playState: 'stop',
@@ -402,15 +406,14 @@ Page({
         let isLight = color.isLightFromString(cardInfo.magicColor)
 
         cardInfo['unique'] = Math.floor((Math.random() * 100000)) + 1
-        cardInfo['textColor'] = (isLight ? '#000000' : '#ffffff')
+        cardInfo['textColor'] = '#000000'
         if (cardInfo.likedUserIDs.indexOf(app.globalData.openid) > -1) {
             cardInfo['likedUrl'] = '../../images/card_info_liked.png'
         } else {
-            cardInfo['likedUrl'] = (isLight ? '../../images/card_info_like_dark.png' : '../../images/card_info_like_light.png')
+            cardInfo['likedUrl'] = '../../images/card_info_like.png'
         }
-        if (cardInfo['textColor'].length == 0) {
-            cardInfo['textColor'] = '#ffffff'
-        }
+        cardInfo['songNameSpace'] = !(/[a-zA-Z]/.test(cardInfo.song.name))
+        cardInfo['singerNameSpace'] = !(/[a-zA-Z]/.test(cardInfo.song.singer))
     },
 
     reloadData: function() {
@@ -735,18 +738,32 @@ Page({
             duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
         })
-        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).opacity(1).step()
+        middleCardAnimation.left(this.currentCardStartL()).top(this.currentCardStartT()).scaleX(1).scaleY(1).step()
+
+        var middleCardMaskAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        })
+        middleCardMaskAnimation.opacity(0).step()
 
         var lastCardAnimation = wx.createAnimation({
             duration: SwipeOutAnimationDuration,
             timingFunction: "ease",
         })
-        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).opacity(0.2).step()
+        lastCardAnimation.left(this.middleCardStartL()).top(this.middleCardStartT()).scaleX(CardScaleRate).scaleY(CardScaleRate).step()
+
+        var lastCardMaskAnimation = wx.createAnimation({
+            duration: SwipeOutAnimationDuration,
+            timingFunction: "ease",
+        })
+        lastCardMaskAnimation.opacity(0.5).step()
 
         this.setData({
             currentCardAnimation: currentCardAnimation.export(),
             middleCardAnimation: middleCardAnimation.export(),
+            middleCardMaskAnimation: middleCardMaskAnimation.export(),
             lastCardAnimation: lastCardAnimation.export(),
+            lastCardMaskAnimation: lastCardMaskAnimation.export(),
         });
 
         // 动画之后，改变数据源
