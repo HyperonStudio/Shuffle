@@ -266,6 +266,7 @@ Page({
                         backgroundAudioManager.stop()
                         this.animateSwipeOutCurrentCard(0, -this.data.screenHeight)
                         this.setData({
+                            curPlayTime: 0,
                             songProgressLeadsToJump: false,
                         })
                     }
@@ -282,6 +283,10 @@ Page({
 
             backgroundAudioManager.onEnded(() => {
                 this.animateSwipeOutCurrentCard(0, -this.data.screenHeight)
+                this.setData({
+                    curPlayTime: 0,
+                    songProgressLeadsToJump: false,
+                })
             });
 
             let cardInfo = this.data.cardInfoList[0]
@@ -709,6 +714,10 @@ Page({
             let backgroundAudioManager = wx.getBackgroundAudioManager();
             backgroundAudioManager.stop()
             this.animateSwipeOutCurrentCard(x * 3, y * 3)
+            this.setData({
+                curPlayTime: 0,
+                songProgressLeadsToJump: false,
+            })
         } else {
             this.animateCurrentCardBackToCenter(event.currentTarget.offsetLeft, event.currentTarget.offsetTop)
         }
