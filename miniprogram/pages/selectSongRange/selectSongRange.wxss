@@ -59,9 +59,6 @@ page {
     position: absolute;
     top: 0px;
     overflow: hidden;
-    /* border-top-left-radius: 4pt;
-    border-top-right-radius: 4pt; */
-    margin: 20rpx;
 }
 
 .card_image {
@@ -72,13 +69,12 @@ page {
     width: 24px;
     height: 24px;
     position: absolute;
-    right: 28px;
-    bottom: 28px;
+    right: 11px;
+    bottom: 14px;
 }
 
 .card_progress {
-    position: relative;
-    bottom: 3px;
+    position: absolute;
     height: 3px;
     background-color: #fff;
 }

@@ -156,8 +156,9 @@ Page({
 
             backgroundAudioManager.onTimeUpdate(() => {
                 let progress = 0
-                if (this.data.rThumbTime - this.data.lThumbTime != 0) {
-                    progress = (backgroundAudioManager.currentTime - this.data.lThumbTime) / (this.data.rThumbTime - this.data.lThumbTime)
+                let distance = this.data.rThumbTime - this.data.lThumbTime
+                if (distance != 0 && backgroundAudioManager.currentTime - this.data.lThumbTime <= distance) {
+                    progress = (backgroundAudioManager.currentTime - this.data.lThumbTime) / distance
                 }                 
                 this.setData({
                     songProgress: progress,
@@ -211,9 +212,11 @@ Page({
 
     seek: function(time) {
         let backgroundAudioManager = wx.getBackgroundAudioManager()
-        backgroundAudioManager.play()
-        let ret = backgroundAudioManager.seek(time)        
-        // console.log('Seek: ', time, ', 结果: ', ret)
+        let ret = backgroundAudioManager.seek(time)
+        if (backgroundAudioManager.paused) {
+            backgroundAudioManager.play()
+        }        
+        console.log('Seek: ', time, ', 结果: ', ret)
     },
 
     pause: function() {
@@ -271,8 +274,10 @@ Page({
     },
 
     onHide: function () {
-        let backgroundAudioManager = wx.getBackgroundAudioManager();
-        backgroundAudioManager.pause();
+        if (this.data.playState == 'playing') {
+            let backgroundAudioManager = wx.getBackgroundAudioManager();
+            backgroundAudioManager.pause();
+        }
     },
 
     onUnload: function () {

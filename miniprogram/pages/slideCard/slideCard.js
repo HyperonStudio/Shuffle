@@ -559,13 +559,17 @@ Page({
         }
     },
 
-    onHide: function()
-    {
-        let backgroundAudioManager = wx.getBackgroundAudioManager();
-        if (this.data.playState == 'playing') {
-            // 暂停
-            backgroundAudioManager.pause();
-        }
+    onHide: function(e) {
+        let that = this
+        setTimeout(function() {
+            if (app.globalData.isActive) {
+                let backgroundAudioManager = wx.getBackgroundAudioManager();
+                if (that.data.playState == 'playing') {
+                    // 暂停
+                    backgroundAudioManager.pause();
+                }
+            }
+        }, 300)
     },
 
     onUnload: function()

@@ -16,6 +16,7 @@ App({
         this.globalData = {}
         this.historyID = []
         this.checkIsIPhoneX()
+        this.globalData.isActive = true
 
         wx.cloud.callFunction({
             name: 'getOpenid',
@@ -39,6 +40,7 @@ App({
             },
         })
         console.log('进入前台')
+        this.globalData.isActive = true
     },
 
     onHide: function(){
@@ -47,6 +49,7 @@ App({
             data: JSON.stringify(getApp().historyID),
         })
         console.log('进入后台')
+        this.globalData.isActive = false
     },
 
     checkIsIPhoneX: function() {

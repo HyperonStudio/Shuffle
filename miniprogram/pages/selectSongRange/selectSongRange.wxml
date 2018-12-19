@@ -1,9 +1,9 @@
 <!--miniprogram/pages/selectSongRange/selectSongRange.wxml-->
 <view class="pageContainer">
     <view class="card_info" style='background-color:{{magicColor}}; top:{{cardT}}px; left:{{cardL}}px; width:{{cardW}}px; height:{{cardH}}px;'>
-        <view class='card_image_info'style='width:{{cardW}}px; height:{{cardW}}px;'>
+        <view class='card_image_info'style='left:10px;top:10px;width:{{imageW}}px; height:{{imageW}}px;'>
             <image class='card_image' src="{{song.image}}" mode='aspectFill' style='width:{{imageW}}px; height:{{imageW}}px;'>
-            <view style='width:{{songProgress * imageW}}px;' class='card_progress'></view>
+            <view style='width:{{songProgress * imageW}}px;opacity:0.5;top:{{imageW - 3}}px' class='card_progress'></view>
             </image>
             <image class='card_toggle' hidden='{{loadingSongUrl}}' src='{{songToggleButtonImageName}}' bindtap='songToggleButtonDidClick'></image>
         </view>
