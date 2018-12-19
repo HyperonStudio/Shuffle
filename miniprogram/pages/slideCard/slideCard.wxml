@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+    <image hidden='true' src='{{middleCardImageSrc}}'></image>
     <view class='loading-tip' hidden='{{loadingTextHidden}}'>{{loadingText}}</view>
     <view class="card_wrap" disable-scroll="true">
         <view wx:for="{{ cardInfoList }}" wx:key="unique" wx:for-index="index" wx:for-item="item">
@@ -89,8 +90,8 @@
             <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='myCardButtonDidClick'></button>
         </view>
         <view class='sharegroup'>
-            <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='postButtonDidClick'></button>
             <image class='sharegroup-img' src='../../images/post.png'></image>
+            <button class='sharegroup-btn' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" bindtap='postButtonDidClick'></button>            
         </view>
     </view>
 </view>

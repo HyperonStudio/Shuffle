@@ -36,6 +36,7 @@ Page({
         middleCardScaleH: 1,
         middleCardAnimation: {},
         middleCardMaskAnimation: {},
+        middleCardImageSrc: '',
 
         lastCardL: 0,
         lastCardL: 0,
@@ -212,7 +213,7 @@ Page({
     },
 
     playFirstCardSong: function() {
-        if (this.data.cardInfoList.length > 0) {
+        if (this.data.cardInfoList != undefined && this.data.cardInfoList.length > 0) {
             let backgroundAudioManager = wx.getBackgroundAudioManager();
 
             if (this.data.playState == 'playing' && this.data.curPlayMid == mid) {
@@ -592,6 +593,11 @@ Page({
         })
         lastCardAnimation.scaleX(CardScaleRate * CardScaleRate).scaleY(CardScaleRate * CardScaleRate).step()
 
+        var middleCardImageSrc = ''
+        if (cardInfoList.length >= 2) {
+            middleCardImageSrc = cardInfoList[1].imageUrl
+        }
+
         this.setData({
             curCardInfo: (cardInfoList.length > 0 ? cardInfoList[0]: {}),
             cardInfoList: cardInfoList,
@@ -612,6 +618,13 @@ Page({
             lastCardAnimation: lastCardAnimation.export(),
             songProgress: 0,
         })
+
+        let that = this
+        setTimeout(function() {
+            that.setData({
+                middleCardImageSrc: middleCardImageSrc,
+            })            
+        }, 200)
     },
 
     currentCardStartL: function() {
