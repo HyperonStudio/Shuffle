@@ -152,7 +152,7 @@ page {
     margin-right: 15px; 
     /* margin-top: 33px; */ 
     color: #fff; 
-    line-height: 25px; 
+    line-height: 21px; 
     font-weight: 400; 
     top: 50%; 
     transform: translateY(-50%); 

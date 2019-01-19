@@ -20,7 +20,7 @@
                                 <view class="{{item.songNameSpace ? 'card_songName' : 'card_songName_no_space'}}" style='color:{{item.textColor}};width:{{currentCardW}}px'>{{item.song.name}}</view>
                                 <view class="{{item.singerNameSpace ? 'card_singerName' : 'card_singerName_no_space'}}" style='color:{{item.textColor}}'>{{item.song.singer}}</view>
                             </view>
-                            <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd">{{item.desc}}</view>
+                            <view class="card_desc" style='color:{{item.textColor}}' catchtouchstart="touchStart" catchtouchmove="touchMove" catchtouchend="touchEnd"><text>{{item.desc}}</text></view>
                             <image class="card_posterAvatar" src="{{item.poster.avatarUrl}}" bindtap='posterDidTap' data-card='{{item}}'></image>
                             <view class='card_posterName' style='color:{{item.textColor}}' bindtap='posterDidTap' data-card='{{item}}'>{{item.poster.nickName}}</view>
                             <image class='card_like' src="{{item.likedUrl}}" bindtap='likeDidTap' data-card='{{item}}'></image>
